@@ -14,6 +14,10 @@
   border-color: #e5e7eb; /* 2 */
 }
 
+.ck-editor__editable {
+    min-height: 250px;
+}
+
 ::before,
 ::after {
   --tw-content: '';
