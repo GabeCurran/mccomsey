@@ -14,10 +14,14 @@
         </form>
 
         @foreach($posts as $post)
-            <div class="mt-4">
-                <h3>{{ $post->title }}</h3>
-                <?php echo $post->content; ?>
-            </div>
+            <x-blog-post>
+                <x-slot name="title">
+                    {{ __($post->title) }}
+                </x-slot>
+                <x-slot name="post_content">
+                    <?php echo $post->content; ?>
+                </x-slot>
+            </x-blog-post>
         @endforeach
     </x-slot>
 </x-app-layout>

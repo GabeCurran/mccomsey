@@ -20,7 +20,7 @@
                 </div>
 
                 <div class="flex p-1">
-                    <select class="border-2 border-gray-300 border-r p-1" name="action">
+                    <select class="border-2 border-gray-300 border-r p-1 w-auto" name="action">
                         <option>Save and Publish</option>
                         <option>Save Draft</option>
                     </select>
