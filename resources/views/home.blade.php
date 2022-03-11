@@ -7,5 +7,10 @@
 
     <x-slot name='content'>
         You are now logged in! Bruh.
+
+        <form method="POST" action="create-post">
+            @csrf
+            <x-blog-editor></x-blog-editor>
+        </form>
     </x-slot>
 </x-app-layout>

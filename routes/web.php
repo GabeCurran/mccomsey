@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\BlogPost;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,8 +19,19 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/home', function () {
-    return view('home');
-})->middleware(['auth'])->name('home');
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/home', function () {
+        return view('home');
+    })->name('home');
+
+    Route::post('/create-post', function (Request $request) {
+        $validated = $request->validate([
+            'title' => 'required|min:3',
+            'content' => 'required|min:10'
+        ]);
+        BlogPost::create($validated);
+        return view('home')->with('posts', BlogPost::all());
+    })->name('create-post');
+});
 
 require __DIR__.'/auth.php'; 
