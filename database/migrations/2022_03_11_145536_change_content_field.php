@@ -15,7 +15,7 @@ return new class extends Migration
     {
         //
         Schema::table('blog_posts', function (Blueprint $table) {
-            $table->
+            $table->longText('content')->change();
         });
     }
 
@@ -27,5 +27,8 @@ return new class extends Migration
     public function down()
     {
         //
+        Schema::table('blog_posts', function (Blueprint $table) {
+            $table->text('content')->change();
+        });
     }
 };

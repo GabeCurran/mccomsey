@@ -12,5 +12,12 @@
             @csrf
             <x-blog-editor></x-blog-editor>
         </form>
+
+        @foreach($posts as $post)
+            <div class="mt-4">
+                <h3>{{ $post->title }}</h3>
+                <?php echo $post->content; ?>
+            </div>
+        @endforeach
     </x-slot>
 </x-app-layout>

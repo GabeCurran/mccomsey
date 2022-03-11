@@ -21,7 +21,7 @@ Route::get('/', function () {
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/home', function () {
-        return view('home');
+        return view('home')->with('posts', BlogPost::all());
     })->name('home');
 
     Route::post('/create-post', function (Request $request) {
@@ -30,7 +30,7 @@ Route::group(['middleware' => ['auth']], function () {
             'content' => 'required|min:10'
         ]);
         BlogPost::create($validated);
-        return view('home')->with('posts', BlogPost::all());
+        return redirect('home');
     })->name('create-post');
 });
 
