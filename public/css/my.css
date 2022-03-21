@@ -4,6 +4,7 @@
 .ck-content p { font-size: 16px; margin-top: 1em; margin-bottom: 1em }
 .ck-content ul { list-style: disc; margin-left: 1rem; }
 .ck-content ol { list-style: decimal; margin-left: 1rem; }
+.ck-content a { color: #0066cc; text-decoration: underline; }
 .ck-editor__editable_inline {
     min-height: 300px;
 }
