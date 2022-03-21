@@ -1,0 +1,9 @@
+.ck-content h2 {  font-size: 28px; }
+.ck-content h3 {  font-size: 24px; }
+.ck-content h4 {  font-size: 20px; }
+.ck-content p { font-size: 16px; margin-top: 1em; margin-bottom: 1em }
+.ck-content ul { list-style: disc; margin-left: 1rem; }
+.ck-content ol { list-style: decimal; margin-left: 1rem; }
+.ck-editor__editable_inline {
+    min-height: 300px;
+}

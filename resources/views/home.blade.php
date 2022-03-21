@@ -6,7 +6,7 @@
     </x-slot>
 
     <x-slot name='content'>
-        You are now logged in! Bruh.
+        You are now logged in! <span class='text-white'>Bruh.</span>
 
         <form method="POST" action="create-post">
             @csrf
