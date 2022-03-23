@@ -35,7 +35,11 @@
 
 <script>
     ClassicEditor
-        .create( document.querySelector( '#editor' ) )
+        .create( document.querySelector( '#editor' ), {
+            mediaEmbed: {
+                previewsInData: true
+            }
+        })
         .catch( error => {
             console.error( error );
         } );

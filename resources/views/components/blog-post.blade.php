@@ -41,20 +41,18 @@
     tables = document.getElementsByTagName('table');
     for (i = 0; i < tables.length; i++) {
         tables[i].classList.add('table-auto');
+        tables[i].classList.add('border-collapse');
         tables[i].classList.add('ml-4');
         tables[i].classList.add('mb-4');
     }
-    tableRow = document.getElementsByTagName('tr');
-    for (i = 0; i < tableRow.length; i++) {
-        tableRow[i].classList.add('border-b-4');
-        tableRow[i].classList.add('border-gray-300');
-        tableRow[i].classList.add('ml-4');
-        tableRow[i].classList.add('mb-4');
-    }
     tableCell = document.getElementsByTagName('td');
     for (i = 0; i < tableCell.length; i++) {
-        tableCell[i].classList.add('border-r-4');
+        tableCell[i].classList.add('border-4');
         tableCell[i].classList.add('border-gray-300');
         tableCell[i].classList.add('p-4');
+    }
+    media = document.getElementsByTagName('oembed');
+    for (i = 0; i < media.length; i++) {
+        media[i].classList.add('width-full');
     }
 </script>
