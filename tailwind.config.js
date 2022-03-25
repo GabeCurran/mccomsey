@@ -15,6 +15,9 @@ module.exports = {
             colors: {
                 'discordblue': '#737DF8',
             },
+            backdropBrightness: {
+                65: '.65',
+            },
         },
     },
 
