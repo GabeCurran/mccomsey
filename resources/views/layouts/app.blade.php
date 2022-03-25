@@ -18,6 +18,7 @@
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-white">
+            <x-banner class='w-screen'></x-banner>
             @include('layouts.navigation')
 
             <!-- Page Heading -->
