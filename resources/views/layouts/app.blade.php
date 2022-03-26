@@ -13,14 +13,16 @@
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
         <link rel="stylesheet" href="{{ asset('css/my.css')}}">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@iconscout/unicons@3.0.6/css/line.css">
 
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}" defer></script>
+        <script src="{{ asset('js/footer.js') }}" defer></script>
     </head>
     <body class="font-sans antialiased">
-        <div class="min-h-screen bg-white">
-            <x-banner class='w-screen'></x-banner>
-            @include('layouts.navigation')
+        <div class="min-h-screen bg-white content-container">
+                <x-banner class='w-screen'></x-banner>
+                @include('layouts.navigation')
 
             <!-- Page Heading -->
             <header class="bg-gray-100 shadow">
@@ -43,5 +45,7 @@
                 </div>
             </main>
         </div>
+        <div class='placeholder'></div>
+        <x-footer></x-footer>
     </body>
 </html>

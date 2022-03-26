@@ -1,5 +1,5 @@
 <!--<img src='http://placekitten.com/g/2000/600' alt='placeholder'>-->
-<figure class='relative parallax'>
+<figure class='relative'>
     <!--<img src='images/banner.png' alt='outside of mccomsey automotive'>-->
     <div class='parallax'></div> 
     <figcaption class='absolute bottom-0 left-0 backdrop-brightness-65 w-full'>
