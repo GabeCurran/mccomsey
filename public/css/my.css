@@ -4,7 +4,6 @@
 
     /* Set a specific height */
     min-height: 600px;
-    max-width: 100%;
 
     /* Create the parallax scrolling effect */
     background-attachment: fixed;
@@ -29,4 +28,16 @@
     position: fixed;
     bottom: 0;
     z-index: 5;
+}
+
+@media screen and (max-width: 850px) {
+    .parallax {
+        background-position: 65% 50%;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .parallax {
+        background-position: 70% 50%;
+    }
 }
