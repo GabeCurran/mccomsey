@@ -3,7 +3,7 @@
     background-image: url('/images/banner.png');
 
     /* Set a specific height */
-    min-height: 600px;
+    min-height: 500px;
 
     /* Create the parallax scrolling effect */
     background-attachment: fixed;
@@ -12,11 +12,11 @@
     background-size: cover;
 }
 
-.content-container, .placeholder {
+.content-container, .banner, .placeholder {
     position: relative; /* crucial for z-index to work */
 }
   
-.content-container { 
+.content-container, .banner { 
     z-index: 10; 
 }
 
@@ -30,7 +30,7 @@
     z-index: 5;
 }
 
-@media screen and (max-width: 850px) {
+@media screen and (max-width: 900px) {
     .parallax {
         background-position: 65% 50%;
     }
