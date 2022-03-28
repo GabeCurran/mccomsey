@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="bg-gray-100 border-b border-gray-100 sticky top-0">
+<nav x-data="{ open: false }" class="bg-gray-100 border-b border-gray-100 sticky top-[-1px]" id='nav'>
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -16,6 +16,11 @@
                         {{ __('Home Page') }}
                     </x-nav-link>
                 </div>
+            </div>
+
+            <!-- McComsey Title -->
+            <div class='flex items-center hidden' id='title'>
+                <h1 class='text-xl'> McComsey Automotive </h1>
             </div>
 
             <!-- Settings Dropdown -->

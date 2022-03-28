@@ -12,6 +12,10 @@
     background-size: cover;
 }
 
+.is-pinned {
+    display: flex;
+}
+
 .content-container, .banner, .placeholder {
     position: relative; /* crucial for z-index to work */
 }
