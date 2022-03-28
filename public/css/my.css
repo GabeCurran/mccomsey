@@ -14,6 +14,19 @@
 
 .is-pinned {
     display: flex;
+    animation-duration: 0.5s;
+    animation-name: title-in;
+}
+
+@keyframes title-in {
+    0% {
+        opacity: 0;
+        transform: translateY(-40px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .content-container, .banner, .placeholder {

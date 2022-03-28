@@ -25,8 +25,8 @@
     </head>
     <body class="font-sans antialiased">
         <x-banner class='w-screen banner'></x-banner>
+        @include('layouts.navigation')
         <div class="min-h-screen bg-white content-container">
-                @include('layouts.navigation')
 
             <!-- Page Heading -->
             <header class="bg-gray-100 shadow">
@@ -42,7 +42,17 @@
                     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                         <div class="bg-white overflow-hidden sm:rounded-lg">
                             <div class="p-6 bg-white">
-                                {{ $content }}
+                                {{ $content1 }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <x-middle-banner></x-middle-banner>
+                <div class="py-12">
+                    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                        <div class="bg-white overflow-hidden sm:rounded-lg">
+                            <div class="p-6 bg-white">
+                                {{ $content2 }}
                             </div>
                         </div>
                     </div>
