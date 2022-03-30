@@ -16,6 +16,9 @@
         <p>Voluptate ad aute elit ea pariatur eiusmod consectetur tempor. Lorem id non culpa quis elit. Laborum irure incididunt voluptate proident anim id minim sint sit ex esse eiusmod deserunt. Enim et et voluptate irure quis veniam amet id ex eu ea enim cillum occaecat eu. Ullamco et tempor adipisicing velit do labore adipisicing sit mollit eiusmod consequat et consequat esse. Irure nostrud tempor ipsum. Magna duis reprehenderit commodo reprehenderit. Lorem aute consectetur do irure et culpa ex veniam aliquip nisi. Dolore consectetur enim commodo adipisicing labore. Duis elit eu ut deserunt fugiat duis officia pariatur.</p>
         <br />
     </x-slot>
+    <x-slot name='middle_banner'>
+        <x-middle-banner></x-middle-banner>
+    </x-slot>
     <x-slot name='content2'>
         <p>Occaecat magna elit ipsum nisi deserunt cillum nostrud est deserunt veniam nulla. Enim exercitation et reprehenderit commodo veniam pariatur ad laboris officia nulla officia. Ut eiusmod sit proident. Sit ea do eiusmod deserunt sint laborum cillum fugiat nulla proident id. Quis id amet ullamco sint ut fugiat sit reprehenderit adipisicing. Non irure dolor amet elit aliqua ipsum voluptate. Cupidatat enim deserunt ullamco et exercitation elit do sunt dolore sit sunt pariatur. Consectetur cupidatat consequat aute reprehenderit reprehenderit nisi ullamco consequat et. Eiusmod minim esse laboris pariatur eu proident adipisicing aliqua elit amet. Lorem cupidatat dolor et aliquip.</p>
         <br />
