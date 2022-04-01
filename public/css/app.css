@@ -659,6 +659,9 @@ select {
 .mt-3 {
   margin-top: 0.75rem;
 }
+.mr-3 {
+  margin-right: 0.75rem;
+}
 .ml-1 {
   margin-left: 0.25rem;
 }
@@ -704,9 +707,6 @@ select {
 .-mt-px {
   margin-top: -1px;
 }
-.mr-3 {
-  margin-right: 0.75rem;
-}
 .mb-8 {
   margin-bottom: 2rem;
 }
@@ -731,6 +731,9 @@ select {
 .h-5 {
   height: 1.25rem;
 }
+.h-96 {
+  height: 24rem;
+}
 .h-auto {
   height: auto;
 }
@@ -751,6 +754,9 @@ select {
 }
 .h-8 {
   height: 2rem;
+}
+.h-80 {
+  height: 20rem;
 }
 .min-h-\[500px\] {
   min-height: 500px;
@@ -940,6 +946,10 @@ select {
   --tw-border-opacity: 1;
   border-color: rgb(209 213 219 / var(--tw-border-opacity));
 }
+.border-black {
+  --tw-border-opacity: 1;
+  border-color: rgb(0 0 0 / var(--tw-border-opacity));
+}
 .border-gray-100 {
   --tw-border-opacity: 1;
   border-color: rgb(243 244 246 / var(--tw-border-opacity));
@@ -986,6 +996,9 @@ select {
 .fill-current {
   fill: currentColor;
 }
+.p-3 {
+  padding: 0.75rem;
+}
 .p-4 {
   padding: 1rem;
 }
@@ -1000,9 +1013,6 @@ select {
 }
 .p-1 {
   padding: 0.25rem;
-}
-.p-3 {
-  padding: 0.75rem;
 }
 .px-4 {
   padding-left: 1rem;
@@ -1101,6 +1111,10 @@ select {
   font-size: 3.75rem;
   line-height: 1;
 }
+.text-lg {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
 .text-\[6vw\] {
   font-size: 6vw;
 }
@@ -1119,10 +1133,6 @@ select {
 .text-2xl {
   font-size: 1.5rem;
   line-height: 2rem;
-}
-.text-lg {
-  font-size: 1.125rem;
-  line-height: 1.75rem;
 }
 .text-xs {
   font-size: 0.75rem;
