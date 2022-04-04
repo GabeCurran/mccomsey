@@ -12,6 +12,12 @@ module.exports = {
             fontFamily: {
                 sans: ['Nunito', ...defaultTheme.fontFamily.sans],
             },
+            colors: {
+                'discordblue': '#737DF8',
+            },
+            backdropBrightness: {
+                65: '.65',
+            },
         },
     },
 

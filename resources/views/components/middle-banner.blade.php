@@ -1,0 +1,1 @@
+<div class="parallax-window min-h-[500px]" data-z-index='11' data-speed='0.2' data-parallax="scroll" data-image-src="images/shop.jpeg"></div>
