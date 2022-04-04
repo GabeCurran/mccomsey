@@ -31,16 +31,17 @@
     </div>
 </div>
 
-<script src="https://cdn.ckeditor.com/ckeditor5/33.0.0/classic/ckeditor.js"></script>
-
-<script>
-    ClassicEditor
-        .create( document.querySelector( '#editor' ), {
-            mediaEmbed: {
-                previewsInData: true
+<script type='module'>
+    ClassicEditor.create(document.querySelector('#editor'), {
+        simpleUpload: {
+            uploadUrl: {
+                url: 'http://localhost/imgur',
+                withCredentials: true,
             }
-        })
-        .catch( error => {
-            console.error( error );
-        } );
+        }
+    }).then(editor => {
+        console.log('Editor created successfully!');
+    }).catch(err => {
+        console.error(err.stack);
+    });
 </script>
