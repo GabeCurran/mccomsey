@@ -42,17 +42,17 @@
                     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                         <div class="bg-white overflow-hidden sm:rounded-lg">
                             <div class="p-6 bg-white">
-                                {{ $content1 }}
+                                {{ $content1 ?? '' }}
                             </div>
                         </div>
                     </div>
                 </div>
-                {{ $middle_banner }}
+                {{ $middle_banner ?? '' }}
                 <div class="py-12">
                     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                         <div class="bg-white overflow-hidden sm:rounded-lg">
                             <div class="p-6 bg-white">
-                                {{ $content2 }}
+                                {{ $content2 ?? '' }}
                             </div>
                         </div>
                     </div>
