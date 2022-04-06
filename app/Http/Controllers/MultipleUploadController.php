@@ -44,7 +44,7 @@ public function store(Request $request)
 
     // return json_encode(['uploaded' => true, 'url' => $path]);
 
-    $image = $request->file('image');
+    $image = $request->file('upload');
     $client = new \GuzzleHttp\Client();
     $response = $client->request('POST', 'https://api.imgur.com/3/upload', [
         'headers' => [
