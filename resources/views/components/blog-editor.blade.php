@@ -35,8 +35,7 @@
     ClassicEditor.create(document.querySelector('#editor'), {
         simpleUpload: {
             uploadUrl: {
-                url: 'http://localhost/imgur',
-                withCredentials: true,
+                url: '/image-upload',
             }
         }
     }).then(editor => {
