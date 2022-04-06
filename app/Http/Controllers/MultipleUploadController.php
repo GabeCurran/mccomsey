@@ -30,8 +30,9 @@ public function store(Request $request)
 
     if($check) {
 
-        $path = $file->store('public/images');
         $name = $file->getClientOriginalName();
+        $file-> move(public_path('images'), $name);
+        $path = 'images/'.$name;
 
         //store image file into directory and db
         $save = new Image();
