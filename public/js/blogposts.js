@@ -52,6 +52,6 @@ for (i = 0; i < media.length; i++) {
 }
 images = document.querySelectorAll('.blog-content img, .blog-content figure.image');
 for (i = 0; i < images.length; i++) {
-    images[i].classList.add('w-44');
+    images[i].classList.add('w-1/2');
     images[i].classList.add('h-auto');
 }
