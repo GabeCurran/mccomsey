@@ -7,21 +7,5 @@
 
     <x-slot name='content'>
         You are now logged in! <span class='text-white'>Bruh.</span>
-
-        <form method="POST" action="create-post">
-            @csrf
-            <x-blog-editor></x-blog-editor>
-        </form>
-
-        @foreach($posts as $post)
-            <x-blog-post>
-                <x-slot name="title">
-                    {{ __($post->title) }}
-                </x-slot>
-                <x-slot name="post_content">
-                    <?php echo $post->content; ?>
-                </x-slot>
-            </x-blog-post>
-        @endforeach
     </x-slot>
 </x-app-layout>

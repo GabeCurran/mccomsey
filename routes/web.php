@@ -22,8 +22,12 @@ Route::get('/', function () {
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/home', function () {
-        return view('home')->with('posts', BlogPost::all());
+        return view('home');
     })->name('home');
+
+    Route::get('/blog', function () {
+        return view('blog')->with('posts', BlogPost::all());
+    })->name('blog');
 
     Route::post('/create-post', function (Request $request) {
         $validated = $request->validate([
