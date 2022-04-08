@@ -9,3 +9,63 @@
 .ck-editor__editable_inline {
     min-height: 300px;
 }
+.parallax {
+    /* The image used */
+    background-image: url('/images/banner.png');
+
+    /* Set a specific height */
+    min-height: 500px;
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.is-pinned {
+    display: flex;
+    animation-duration: 0.3s;
+    animation-name: title-in;
+}
+
+@keyframes title-in {
+    0% {
+        opacity: 0;
+        transform: translateY(-40px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.content-container, .banner, .placeholder {
+    position: relative; /* crucial for z-index to work */
+}
+  
+.content-container, .banner { 
+    z-index: 10; 
+}
+
+.placeholder {
+    z-index: 1;
+}
+
+.parallax-footer {
+    position: fixed;
+    bottom: 0;
+    z-index: 5;
+}
+
+@media screen and (max-width: 900px) {
+    .parallax {
+        background-position: 65% 50%;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .parallax {
+        background-position: 70% 50%;
+    }
+}
