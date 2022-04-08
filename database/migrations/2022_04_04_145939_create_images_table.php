@@ -13,14 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('blog_posts', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::create('images', function (Blueprint $table) {
+            $table->increments('id');
             $table->string('title');
-            $table->text('content');
+            $table->string('path');
+            $table->timestamps();
         });
     }
-
+ 
     /**
      * Reverse the migrations.
      *
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('blog_posts');
+        Schema::dropIfExists('images');
     }
 };

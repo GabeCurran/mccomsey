@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\BlogPost;
+use Illuminate\Http\Request;
+use App\Http\Controllers\MultipleUploadController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +28,22 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/appointments', function () {
         return view('appointments');
     })->name('appointments');
+    Route::get('/blog', function () {
+        return view('blog')->with('posts', BlogPost::all());
+    })->name('blog');
+
+    Route::post('/create-post', function (Request $request) {
+        $validated = $request->validate([
+            'title' => 'required|min:3',
+            'content' => 'required|min:10'
+        ]);
+        BlogPost::create($validated);
+        return redirect('home');
+    })->name('create-post');
+
+    // Route::post('multiple-image-upload', [MultipleUploadController::class, 'upload']);
+
+    Route::post('/image-upload', [MultipleUploadController::class, 'store'])->name('image-upload');
 });
 
 require __DIR__.'/auth.php'; 
