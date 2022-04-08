@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <x-slot name='content'>
+    <x-slot name='content1'>
         <form method="POST" action="create-post">
             @csrf
             <x-blog-editor></x-blog-editor>
