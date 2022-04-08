@@ -12,14 +12,12 @@
 
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-<<<<<<< HEAD
         <link rel="stylesheet" href="{{ asset('css/my.css') }}">
 
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}" defer></script>
         <script src="{{ asset('js/vendors.js') }}" defer></script>
         <script src="{{ asset('js/blogposts.js') }}" defer></script>
-=======
         <link rel="stylesheet" href="{{ asset('css/my.css')}}">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@iconscout/unicons@3.0.6/css/line.css">
 
@@ -30,7 +28,6 @@
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
         <script src="{{ 'js/parallax.min.js' }}" defer></script>
->>>>>>> main
     </head>
     <body class="font-sans antialiased">
         <x-banner class='w-screen banner'></x-banner>
@@ -51,17 +48,17 @@
                     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                         <div class="bg-white overflow-hidden sm:rounded-lg">
                             <div class="p-6 bg-white">
-                                {{ $content1 }}
+                                {{ $content1 ?? '' }}
                             </div>
                         </div>
                     </div>
                 </div>
-                {{ $middle_banner }}
+                {{ $middle_banner ?? '' }}
                 <div class="py-12">
                     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                         <div class="bg-white overflow-hidden sm:rounded-lg">
                             <div class="p-6 bg-white">
-                                {{ $content2 }}
+                                {{ $content2 ?? '' }}
                             </div>
                         </div>
                     </div>
