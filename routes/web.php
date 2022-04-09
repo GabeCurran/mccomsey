@@ -24,7 +24,11 @@ Route::get('/', function () {
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/home', function () {
-        return view('home')->with(['content', Home::where('id = 1')]);
+        $content = DB::select("
+            SELECT content FROM home
+            WHERE id = 1
+        ");
+        return view('home')->with(['content' => $content]);
     })->name('home');
 
     Route::get('/home-editor', function () {
