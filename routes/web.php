@@ -49,9 +49,12 @@ Route::group(['middleware' => ['auth']], function () {
     })->name('create-post');
 
     Route::post('/edit-home', function (Request $request) {
+        $content = $request->input('content');
+        $content = str_replace("'", "\'", $content);
+        $content = str_replace('"', '\"', $content);
         DB::update("
         update home
-        set content = '{$request->input('content')}'
+        set content = '{$content}'
         where id = 1
       ");
       return redirect('home');
