@@ -28,7 +28,7 @@ Route::group(['middleware' => ['auth']], function () {
             SELECT content FROM home
             WHERE id = 1
         ");
-        return view('home')->with(['content' => $content]);
+        return view('home')->with(['content' => $content[0]->content]);
     })->name('home');
 
     Route::get('/home-editor', function () {
