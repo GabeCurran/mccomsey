@@ -7,7 +7,7 @@
     <x-slot name='content1'>
         <form method="POST" action="edit-home">
             @csrf
-            <x-blog-editor></x-blog-editor>
+            <x-home-editor-bruh></x-home-editor-bruh>
         </form>
     </x-slot>
 
