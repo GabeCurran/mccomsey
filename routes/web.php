@@ -17,7 +17,7 @@ use App\Http\Controllers\MultipleUploadController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
 Route::group(['middleware' => ['auth']], function () {
