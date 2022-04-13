@@ -9,6 +9,10 @@
             @csrf
             <x-home-editor-bruh></x-home-editor-bruh>
         </form>
+    <script>
+        let content = `<?php echo $content; ?>`;
+        console.log(content);
+    </script>
     </x-slot>
 
     

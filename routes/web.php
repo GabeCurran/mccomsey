@@ -32,7 +32,10 @@ Route::group(['middleware' => ['auth']], function () {
     })->name('home');
 
     Route::get('/home-editor', function () {
-        return view('home-editor');
+        $content = DB::select("
+        select content from home where id = 1
+      ");
+        return view('home-editor')->with(['content' => $content[0]->content]);
     })->name('home-editor');
 
     Route::get('/blog', function () {
@@ -59,8 +62,6 @@ Route::group(['middleware' => ['auth']], function () {
       ");
       return redirect('home');
     })->name('edit-home');
-
-    // Route::post('multiple-image-upload', [MultipleUploadController::class, 'upload']);
 
     Route::post('/image-upload', [MultipleUploadController::class, 'store'])->name('image-upload');
 });

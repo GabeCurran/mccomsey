@@ -32,6 +32,7 @@
         }
     }).then(editor => {
         console.log('Editor created successfully!');
+        editor.setData(content);
     }).catch(err => {
         console.error(err.stack);
     });
