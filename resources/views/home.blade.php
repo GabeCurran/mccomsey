@@ -7,7 +7,9 @@
 
     <x-slot name='content1'>
         <h1 class='text-6xl mb-5'>About</h1>
-        <?php echo $content; ?>
+        <div id='home-content'>
+            <?php echo $content; ?>
+        </div>
         <div class='flex justify-between border-t border-gray pt-6'>
             <div class='basis-1/3 h-80 contact-info mr-3 p-3 border border-black rounded-lg bg-gray-100 flex flex-col justify-center items-center'>
                 <h3 class='text-lg'>Contact Info</h3>
