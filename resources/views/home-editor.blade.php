@@ -11,7 +11,6 @@
         </form>
     <script>
         let content = `<?php echo $content; ?>`;
-        console.log(content);
     </script>
     </x-slot>
 
