@@ -2,7 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Models\BlogPost;
+use App\Models\Home;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\MultipleUploadController;
 
 /*
@@ -17,14 +19,26 @@ use App\Http\Controllers\MultipleUploadController;
 */
 
 Route::group(['middleware' => ['auth']], function () {
-    Route::get('/', function () {
-        return view('home');
-    })->name('home');
 
 
     Route::get('/home', function () {
         return redirect('/');
     });
+
+    Route::get('/', function () {
+        $content = DB::select("
+            SELECT content FROM home
+            WHERE id = 1
+        ");
+        return view('home')->with(['content' => $content[0]->content]);
+    })->name('home');
+
+    Route::get('/home-editor', function () {
+        $content = DB::select("
+        select content from home where id = 1
+      ");
+        return view('home-editor')->with(['content' => $content[0]->content]);
+    })->name('home-editor');
 
     Route::get('/blog', function () {
         return view('blog')->with('posts', BlogPost::all());
@@ -36,10 +50,20 @@ Route::group(['middleware' => ['auth']], function () {
             'content' => 'required|min:10'
         ]);
         BlogPost::create($validated);
-        return redirect('home');
+        return redirect('blog');
     })->name('create-post');
 
-    // Route::post('multiple-image-upload', [MultipleUploadController::class, 'upload']);
+    Route::post('/edit-home', function (Request $request) {
+        $content = $request->input('content');
+        $content = str_replace("'", "\'", $content);
+        $content = str_replace('"', '\"', $content);
+        DB::update("
+        update home
+        set content = '{$content}'
+        where id = 1
+      ");
+      return redirect('home');
+    })->name('edit-home');
 
     Route::post('/image-upload', [MultipleUploadController::class, 'store'])->name('image-upload');
 });
