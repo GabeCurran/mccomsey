@@ -20,6 +20,11 @@
                     <?php echo $post->content; ?>
                 </x-slot>
             </x-blog-post>
+            @foreach($comments as $comment)
+                @if($comment->post_id == $post->id)
+                    <p>{{ $comment->comment }}</p>
+                @endif
+            @endforeach
             <form method='post' action='create-comment'>
                 @csrf
                 <input type='hidden' name='post_id' value='{{ $post->id }}'>

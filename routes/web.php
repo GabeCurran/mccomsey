@@ -28,7 +28,8 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
     Route::get('/blog', function () {
-        return view('blog')->with('posts', BlogPost::all());
+        return view('blog')->with('posts', BlogPost::all())
+            ->with('comments', Comment::all());
     })->name('blog');
 
     Route::post('/create-post', function (Request $request) {
