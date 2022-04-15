@@ -16,14 +16,15 @@ use App\Http\Controllers\MultipleUploadController;
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
-
 Route::group(['middleware' => ['auth']], function () {
-    Route::get('/home', function () {
+    Route::get('/', function () {
         return view('home');
     })->name('home');
+
+
+    Route::get('/home', function () {
+        return redirect('/');
+    });
 
     Route::get('/blog', function () {
         return view('blog')->with('posts', BlogPost::all());
