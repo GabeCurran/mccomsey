@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Models\BlogPost;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 use App\Http\Controllers\MultipleUploadController;
 
@@ -36,8 +37,18 @@ Route::group(['middleware' => ['auth']], function () {
             'content' => 'required|min:10'
         ]);
         BlogPost::create($validated);
-        return redirect('home');
+        return redirect('blog');
     })->name('create-post');
+
+    Route::post('/create-comment', function (Request $request) {
+        $validated = $request->validate([
+            'post_id' => 'required|exists:blog_posts,id',
+            'username' => 'required|min:3',
+            'comment' => 'required|min:10'
+        ]);
+        Comment::create($validated);
+        return redirect('blog');
+    })->name('create-comment');
 
     // Route::post('multiple-image-upload', [MultipleUploadController::class, 'upload']);
 

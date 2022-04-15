@@ -6295,10 +6295,6 @@ select {
   -webkit-text-decoration-line: underline;
           text-decoration-line: underline;
 }
-.hover\:decoration-solid:hover {
-  -webkit-text-decoration-style: solid;
-          text-decoration-style: solid;
-}
 .focus\:z-10:focus {
   z-index: 10;
 }

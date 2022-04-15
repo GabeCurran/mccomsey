@@ -20,6 +20,13 @@
                     <?php echo $post->content; ?>
                 </x-slot>
             </x-blog-post>
+            <form method='post' action='create-comment'>
+                @csrf
+                <input type='hidden' name='post_id' value='{{ $post->id }}'>
+                <input type='hidden' name='username' value='guest'>
+                <x-comment-input name='comment' placeholder='Leave a comment!'></x-comment-input>
+                <button type='submit' class='p-3 mt-3 bg-blue-400 rounded text-white'>Submit</button>
+            </form>
         @endforeach
     </x-slot>
 </x-app-layout>
