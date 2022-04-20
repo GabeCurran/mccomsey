@@ -2,7 +2,5 @@
     "/js/app.js": "/js/app.js",
     "/css/app.css": "/css/app.css",
     "/js/vendors.js": "/js/vendors.js",
-    "/js/ckeditor.js.map": "/js/ckeditor.js.map",
-    "/js/ckeditor-inline.js": "/js/ckeditor-inline.js",
-    "/js/ckeditor-inline.js.map": "/js/ckeditor-inline.js.map"
+    "/js/ckeditor.js.map": "/js/ckeditor.js.map"
 }
