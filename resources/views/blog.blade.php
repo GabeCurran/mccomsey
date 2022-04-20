@@ -23,6 +23,9 @@
             @foreach($comments as $comment)
                 @if($comment->post_id == $post->id)
                     <x-comment>
+                        <x-slot name="username">
+                            {{ $comment->username }}
+                        </x-slot>
                         <x-slot name="comment">
                             {{ __($comment->comment) }}
                         </x-slot>
@@ -34,8 +37,8 @@
                 <input type='hidden' name='post_id' value='{{ $post->id }}'>
                 <input type='hidden' name='username' value='guest'>
                 <x-comment-input name='comment' placeholder='Leave a comment!'></x-comment-input>
-                <div class='flex justify-end'>
-                    <button type='submit' class='px-10 py-3 mt-3 bg-blue-400 rounded text-white mr-10'>Submit</button>
+                <div class='flex justify-end w-[90%] ml-[3.75rem]'>
+                    <button type='submit' class='px-10 py-3 mt-3 bg-blue-400 rounded text-white'>Submit</button>
                 </div>
             </form>
         @endforeach
