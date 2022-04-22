@@ -859,12 +859,6 @@ select {
 .top-3 {
   top: 0.75rem;
 }
-.left-\[1\.375rem\] {
-  left: 1.375rem;
-}
-.left-\[1\.625rem\] {
-  left: 1.625rem;
-}
 .top-4 {
   top: 1rem;
 }
@@ -2232,6 +2226,9 @@ select {
   min-width: -webkit-min-content;
   min-width: -moz-min-content;
   min-width: min-content;
+}
+.min-w-\[3rem\] {
+  min-width: 3rem;
 }
 .max-w-7xl {
   max-width: 80rem;
