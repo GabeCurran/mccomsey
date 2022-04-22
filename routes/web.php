@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Models\BlogPost;
 use App\Models\Comment;
+use App\Models\Like;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\MultipleUploadController;
 
@@ -28,7 +30,14 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
     Route::get('/blog', function () {
-        return view('blog')->with('posts', BlogPost::all()->sortByDesc('created_at'))
+        $posts = DB::select('
+            select p.id, p.title, p.content, count(l.id) as likes
+            from blog_posts p
+            left join likes l on p.id = l.post_id
+            group by p.id, p.title, p.content
+            order by p.created_at desc
+        ');
+        return view('blog')->with('posts', $posts)
             ->with('comments', Comment::all());
     })->name('blog');
 
@@ -50,6 +59,15 @@ Route::group(['middleware' => ['auth']], function () {
         Comment::create($validated);
         return redirect('blog');
     })->name('create-comment');
+
+    Route::post('/like-post', function (Request $request) {
+        $validated = $request->validate([
+            'post_id' => 'required|exists:blog_posts,id'
+        ]);
+        $user = auth()->user();
+        Like::create($validated + ['user_id' => $user->id]);
+        return redirect('blog');
+    })->name('like-post');
 
     // Route::post('multiple-image-upload', [MultipleUploadController::class, 'upload']);
 

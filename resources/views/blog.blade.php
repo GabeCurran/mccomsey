@@ -19,6 +19,16 @@
                 <x-slot name="post_content">
                     <?php echo $post->content; ?>
                 </x-slot>
+                <x-slot name='likeButton'>
+                    <form method='post' action='like-post'>
+                        @csrf
+                        <input type="hidden" name="post_id" value="{{ $post->id }}">
+                        <button type='submit' class='px-5 py-1 bg-gray-100 rounded text-blue-500 hover:bg-gray-200'>Like</button>
+                    </form>
+                </x-slot>
+                <x-slot name="likes">
+                    {{ $post->likes }}
+                </x-slot>
             </x-blog-post>
             @foreach($comments as $comment)
                 @if($comment->post_id == $post->id)
