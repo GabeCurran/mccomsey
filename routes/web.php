@@ -28,7 +28,7 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
     Route::get('/blog', function () {
-        return view('blog')->with('posts', BlogPost::all())
+        return view('blog')->with('posts', BlogPost::all()->sortByDesc('created_at'))
             ->with('comments', Comment::all());
     })->name('blog');
 
