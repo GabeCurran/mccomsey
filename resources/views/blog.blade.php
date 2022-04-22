@@ -24,13 +24,13 @@
                     <form method='post' action='unlike-post'>
                         @csrf
                         <input type="hidden" name="post_id" value="{{ $post->id }}">
-                        <button type='submit' class='px-5 py-1 bg-gray-100 rounded text-red-500 hover:bg-gray-200'>Unlike</button>
+                        <button type='submit' class='px-5 py-1 bg-gray-100 rounded text-red-500 hover:bg-gray-200 hover:-translate-y-0.5 hover:drop-shadow-md'>Unlike</button>
                     </form>
                     @else
                     <form method='post' action='like-post'>
                         @csrf
                         <input type="hidden" name="post_id" value="{{ $post->id }}">
-                        <button type='submit' class='px-5 py-1 bg-gray-100 rounded text-blue-500 hover:bg-gray-200'>Like</button>
+                        <button type='submit' class='px-5 py-1 bg-gray-100 rounded text-blue-500 hover:bg-gray-200 hover:-translate-y-0.5 hover:drop-shadow-md'>Like</button>
                     </form>
                     @endif
                 </x-slot>
