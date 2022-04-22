@@ -32,6 +32,9 @@
         <h1 class='text-6xl mb-5'> Recent Blog Posts</h1>
         <div class='flex justify-between border-t border-gray pt-6'></div>
         @foreach($posts as $post)
+        @if($loop->index >=  3)
+        @break
+        @endif
             <x-blog-post>
                 <x-slot name="title">
                     {{ __($post->title) }}
@@ -40,6 +43,7 @@
                     <?php echo $post->content; ?>
                 </x-slot>
             </x-blog-post>
+        
         @endforeach
         <br>
     </x-slot>
