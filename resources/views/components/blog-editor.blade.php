@@ -20,10 +20,6 @@
                 </div>
 
                 <div class="flex p-1">
-                    <select class="border-2 border-gray-300 border-r px-4 w-auto" name="action">
-                        <option>Save and Publish</option>
-                        <option>Save Draft</option>
-                    </select>
                     <button type="submit" role="submit" class="p-3 bg-blue-500 text-white hover:bg-blue-400" required>Submit</button>
                 </div>
             </div>

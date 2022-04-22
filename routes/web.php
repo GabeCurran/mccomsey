@@ -37,8 +37,20 @@ Route::group(['middleware' => ['auth']], function () {
             group by p.id, p.title, p.content
             order by p.created_at desc
         ');
+
+        $user = auth()->user();
+        $userLikes = DB::select('
+            select post_id from likes
+            where user_id = ' . $user->id . '
+        ');
+        $likeArr = [];
+        foreach ($userLikes as $like) {
+            array_push($likeArr, $like->post_id);
+        }
+
         return view('blog')->with('posts', $posts)
-            ->with('comments', Comment::all());
+            ->with('comments', Comment::all())
+            ->with('likes', $likeArr);
     })->name('blog');
 
     Route::post('/create-post', function (Request $request) {
@@ -53,10 +65,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/create-comment', function (Request $request) {
         $validated = $request->validate([
             'post_id' => 'required|exists:blog_posts,id',
-            'username' => 'required|min:3',
             'comment' => 'required|min:10'
         ]);
-        Comment::create($validated);
+        Comment::create($validated + ['username' => auth()->user()->name]);
         return redirect('blog');
     })->name('create-comment');
 
@@ -68,6 +79,17 @@ Route::group(['middleware' => ['auth']], function () {
         Like::create($validated + ['user_id' => $user->id]);
         return redirect('blog');
     })->name('like-post');
+
+    Route::post('/unlike-post', function (Request $request) {
+        $validated = $request->validate([
+            'post_id' => 'required|exists:blog_posts,id'
+        ]);
+        $user = auth()->user();
+        Like::where('user_id', $user->id)
+            ->where('post_id', $validated['post_id'])
+            ->delete();
+        return redirect('blog');
+    })->name('unlike-post');
 
     // Route::post('multiple-image-upload', [MultipleUploadController::class, 'upload']);
 

@@ -20,11 +20,19 @@
                     <?php echo $post->content; ?>
                 </x-slot>
                 <x-slot name='likeButton'>
+                    @if (in_array($post->id, $likes))
+                    <form method='post' action='unlike-post'>
+                        @csrf
+                        <input type="hidden" name="post_id" value="{{ $post->id }}">
+                        <button type='submit' class='px-5 py-1 bg-gray-100 rounded text-red-500 hover:bg-gray-200'>Unlike</button>
+                    </form>
+                    @else
                     <form method='post' action='like-post'>
                         @csrf
                         <input type="hidden" name="post_id" value="{{ $post->id }}">
                         <button type='submit' class='px-5 py-1 bg-gray-100 rounded text-blue-500 hover:bg-gray-200'>Like</button>
                     </form>
+                    @endif
                 </x-slot>
                 <x-slot name="likes">
                     {{ $post->likes }}
@@ -45,7 +53,6 @@
             <form method='post' action='create-comment'>
                 @csrf
                 <input type='hidden' name='post_id' value='{{ $post->id }}'>
-                <input type='hidden' name='username' value='guest'>
                 <x-comment-input name='comment' placeholder='Leave a comment!'></x-comment-input>
                 <div class='flex justify-end w-[90%] ml-[3.75rem]'>
                     <button type='submit' class='px-10 py-3 mt-3 bg-blue-400 rounded text-white'>Submit</button>
