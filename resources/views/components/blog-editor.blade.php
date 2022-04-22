@@ -37,6 +37,9 @@
             uploadUrl: {
                 url: '/image-upload',
             }
+        },
+        mediaEmbed: {
+            previewsInData: true,
         }
     }).then(editor => {
         console.log('Editor created successfully!');
