@@ -1,3 +1,9 @@
+<script defer>
+    window.onload = function() {
+        document.body.scrollTop -= 80;
+        document.documentElement.scrollTop -= 80;
+    }
+</script>
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -21,16 +27,16 @@
                 </x-slot>
                 <x-slot name='likeButton'>
                     @if (in_array($post->id, $likes))
-                    <form method='post' action='unlike-post'>
+                    <form method='post' action='unlike-post' class='mb-0'>
                         @csrf
                         <input type="hidden" name="post_id" value="{{ $post->id }}">
-                        <button type='submit' class='px-5 py-1 bg-gray-100 rounded text-red-500 hover:bg-gray-200 hover:-translate-y-0.5 hover:drop-shadow-md'>Unlike</button>
+                        <button id='{{ $post->id }}' type='submit' class='px-5 py-1 bg-gray-100 rounded font-bold text-blue-500 hover:bg-gray-200 hover:-translate-y-0.5 hover:drop-shadow-md'>Liked</button>
                     </form>
                     @else
-                    <form method='post' action='like-post'>
+                    <form method='post' action='like-post' class='mb-0'>
                         @csrf
                         <input type="hidden" name="post_id" value="{{ $post->id }}">
-                        <button type='submit' class='px-5 py-1 bg-gray-100 rounded text-blue-500 hover:bg-gray-200 hover:-translate-y-0.5 hover:drop-shadow-md'>Like</button>
+                        <button id='{{ $post->id }}' type='submit' class='px-5 py-1 bg-gray-100 rounded font-bold text-gray-600 hover:bg-gray-200 hover:-translate-y-0.5 hover:drop-shadow-md'>Like</button>
                     </form>
                     @endif
                 </x-slot>
@@ -41,6 +47,9 @@
             @foreach($comments as $comment)
                 @if($comment->post_id == $post->id)
                     <x-comment>
+                        <x-slot name='comment_id'>
+                            comment{{ $comment->id }}
+                        </x-slot>
                         <x-slot name="username">
                             {{ $comment->username }}
                         </x-slot>

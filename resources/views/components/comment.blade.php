@@ -1,4 +1,4 @@
-<div class='flex divide-y'>
+<div id='{{ $comment_id }}' class='flex divide-y'>
     <div class='ml-10 border border-grey-300'></div>
     <div class="mt-4 ml-5 p-2 w-[90%] flex">
         <div class='w-12 h-12 min-w-[3rem] rounded-full bg-gray-200 mr-2 bg-blue-400 relative overflow-hidden'>

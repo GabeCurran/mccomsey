@@ -68,7 +68,7 @@ Route::group(['middleware' => ['auth']], function () {
             'comment' => 'required|min:10'
         ]);
         Comment::create($validated + ['username' => auth()->user()->name]);
-        return redirect('blog');
+        return redirect('blog#comment' . Comment::all()->last()->id);
     })->name('create-comment');
 
     Route::post('/like-post', function (Request $request) {
@@ -77,7 +77,7 @@ Route::group(['middleware' => ['auth']], function () {
         ]);
         $user = auth()->user();
         Like::create($validated + ['user_id' => $user->id]);
-        return redirect('blog');
+        return redirect('blog#' . $validated['post_id']);
     })->name('like-post');
 
     Route::post('/unlike-post', function (Request $request) {
@@ -88,7 +88,7 @@ Route::group(['middleware' => ['auth']], function () {
         Like::where('user_id', $user->id)
             ->where('post_id', $validated['post_id'])
             ->delete();
-        return redirect('blog');
+        return redirect('blog#' . $validated['post_id']);
     })->name('unlike-post');
 
     // Route::post('multiple-image-upload', [MultipleUploadController::class, 'upload']);
