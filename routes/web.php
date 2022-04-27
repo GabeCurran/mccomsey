@@ -31,10 +31,11 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/blog', function () {
         $posts = DB::select('
-            select p.id, p.title, p.content, count(l.id) as likes
+            select p.id, p.title, p.content, p.user_id, u.name, count(l.id) as likes
             from blog_posts p
+            join users u on p.user_id = u.id
             left join likes l on p.id = l.post_id
-            group by p.id, p.title, p.content
+            group by p.id, p.title, p.content, u.name
             order by p.created_at desc
         ');
 
@@ -65,9 +66,23 @@ Route::group(['middleware' => ['auth']], function () {
             'title' => 'required|min:3',
             'content' => 'required|min:10'
         ]);
-        BlogPost::create($validated);
-        return redirect('blog');
+        BlogPost::create($validated + ['user_id' => auth()->id()]);
+        return redirect('blog#post' . BlogPost::all()->last()->id);
     })->name('create-post');
+
+    Route::post('/delete-post', function (Request $request) {
+        $post = BlogPost::findOrFail($request->post_id);
+        if ($post->user_id == auth()->user()->id) {
+            $comments = Comment::where('post_id', $request->post_id);
+            $comments->delete();
+            $likes = Like::where('post_id', $request->post_id);
+            $likes->delete();
+            $post->delete();
+            return redirect('blog')->with('success', 'Post deleted successfully');
+        } else {
+            return redirect('/blog')->with('error', 'You can only delete your own posts');
+        }
+    })->name('delete-post');
 
     Route::post('/create-comment', function (Request $request) {
         $validated = $request->validate([
@@ -84,7 +99,7 @@ Route::group(['middleware' => ['auth']], function () {
         ]);
         $user = auth()->user();
         Like::create($validated + ['user_id' => $user->id]);
-        return redirect('blog#' . $validated['post_id']);
+        return redirect('blog#like' . $validated['post_id']);
     })->name('like-post');
 
     Route::post('/unlike-post', function (Request $request) {
@@ -95,7 +110,7 @@ Route::group(['middleware' => ['auth']], function () {
         Like::where('user_id', $user->id)
             ->where('post_id', $validated['post_id'])
             ->delete();
-        return redirect('blog#' . $validated['post_id']);
+        return redirect('blog#like' . $validated['post_id']);
     })->name('unlike-post');
 
     // Route::post('multiple-image-upload', [MultipleUploadController::class, 'upload']);
