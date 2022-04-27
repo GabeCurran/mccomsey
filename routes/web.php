@@ -38,18 +38,25 @@ Route::group(['middleware' => ['auth']], function () {
             order by p.created_at desc
         ');
 
+        $comments = DB::select('
+            select c.id, c.post_id, c.comment, c.created_at, u.name
+            from comments c
+            join users u on c.user_id = u.id
+        ');
+
         $user = auth()->user();
         $userLikes = DB::select('
             select post_id from likes
             where user_id = ' . $user->id . '
         ');
+
         $likeArr = [];
         foreach ($userLikes as $like) {
             array_push($likeArr, $like->post_id);
         }
 
         return view('blog')->with('posts', $posts)
-            ->with('comments', Comment::all())
+            ->with('comments', $comments)
             ->with('likes', $likeArr);
     })->name('blog');
 
@@ -67,7 +74,7 @@ Route::group(['middleware' => ['auth']], function () {
             'post_id' => 'required|exists:blog_posts,id',
             'comment' => 'required|min:10'
         ]);
-        Comment::create($validated + ['username' => auth()->user()->name]);
+        Comment::create($validated + ['user_id' => auth()->user()->id]);
         return redirect('blog#comment' . Comment::all()->last()->id);
     })->name('create-comment');
 

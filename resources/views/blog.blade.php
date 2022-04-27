@@ -51,7 +51,7 @@
                             comment{{ $comment->id }}
                         </x-slot>
                         <x-slot name="username">
-                            {{ $comment->username }}
+                            {{ $comment->name }}
                         </x-slot>
                         <x-slot name="comment">
                             {{ __($comment->comment) }}
