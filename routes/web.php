@@ -70,6 +70,20 @@ Route::group(['middleware' => ['auth']], function () {
         return redirect('blog#post' . BlogPost::all()->last()->id);
     })->name('create-post');
 
+    Route::post('/edit-post', function (Request $request) {
+        $post = BlogPost::find($request->post_id);
+        return view('edit-post')->with('post', $post);
+    })->name('edit-post');
+
+    Route::post('/update-post', function (Request $request) {
+        $validated = $request->validate([
+            'title' => 'required|min:3',
+            'content' => 'required|min:10'
+        ]);
+        BlogPost::where('id', $request->post_id)->update($validated);
+        return redirect('blog#post' . $request->post_id);
+    })->name('update-post');
+
     Route::post('/delete-post', function (Request $request) {
         $post = BlogPost::findOrFail($request->post_id);
         if ($post->user_id == auth()->user()->id) {

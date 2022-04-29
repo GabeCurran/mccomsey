@@ -5,13 +5,17 @@
         </h2>
     </x-slot>
     <x-slot name='content1'>
-        <form method="POST" action="edit-home">
+        <form method="POST" action="update-post">
             @csrf
-            <x-blog-editor></x-blog-editor>
+            <x-blog-updater>
+                <x-slot name='post_id'>{{ $post->id }}</x-slot>
+                <x-slot name="title">
+                    {{ __($post->title) }}
+                </x-slot>
+            </x-blog-updater>
         </form>
     <script>
-        let title = `{{ $home->title }}`;
-        let content = `<?php echo $content; ?>`;
+        let content = `<?php echo $post->content; ?>`;
         console.log(content);
     </script>
     </x-slot>

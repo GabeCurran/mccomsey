@@ -25,7 +25,7 @@
                 </x-slot>
                 @if ($post->user_id == auth()->user()->id)
                     <x-slot name='edit_button'>
-                        <form class='mb-0' method="POST" action="edit-post"></form>
+                        <form class='mb-0' method="POST" action="edit-post">
                             @csrf
                             <input type="hidden" name="post_id" value="{{ $post->id }}">
                             <button type="submit" class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-1 px-3 rounded">
