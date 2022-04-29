@@ -6,7 +6,7 @@
             {{ $delete_button ?? '' }}
         </div>
     </div>
-    <div class='text-sm mb-5'>by {{ $author }}</div>
+    <div class='text-sm mb-5'>by {{ $author }} on {{ $datetime }}</div>
     <div class='blog-content'>{{ $post_content }}</div>
     <div class='flex items-center mt-3'>
         {{ $likeButton }}

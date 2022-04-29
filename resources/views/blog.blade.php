@@ -44,7 +44,12 @@
                     </x-slot>
                 @endif
                 <x-slot name="author">
-                    {{ __($post->name) }}
+                    {{ $post->name }}
+                </x-slot>
+                <?php $date = new DateTime($post->created_at);
+                 $result = $date->format('F j, Y, h:i') ?>
+                <x-slot name="datetime">
+                    {{ $result }}
                 </x-slot>
                 <x-slot name="post_content">
                     <?php echo $post->content; ?>
