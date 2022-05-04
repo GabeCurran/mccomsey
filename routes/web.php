@@ -38,6 +38,19 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/appointments', function () {
         return view('appointments');
     })->name('appointments');
+
+    Route::post('/create-appointment', function () {
+        $appointment = new Appointment;
+        $appointment->name = request('name');
+        $appointment->email = request('email');
+        $appointment->phone = request('phone');
+        $appointment->date = request('date');
+        $appointment->time = request('time');
+        $appointment->message = request('message');
+        $appointment->save();
+        return redirect('/appointments');
+    })->name('create-appointment');
+
     Route::get('/home-editor', function () {
         $content = DB::select("
         select content from home where id = 1
