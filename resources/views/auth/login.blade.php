@@ -52,5 +52,12 @@
                 </x-button>
             </div>
         </form>
+        <div class='flex justify-end mt-5'>
+        <p class="text-sm text-gray-600 mt-2">
+            Don't have an account?
+        </p>
+        <x-button class="ml-3">
+            <a href='/register'>Register</a>
+        </x-button>
     </x-auth-card>
 </x-guest-layout>
