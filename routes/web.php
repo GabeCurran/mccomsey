@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Models\BlogPost;
 use App\Models\Home;
+use App\Models\Appointment;
+use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\MultipleUploadController;
@@ -36,17 +38,24 @@ Route::group(['middleware' => ['auth']], function () {
     })->name('home');
 
     Route::get('/appointments', function () {
-        return view('appointments');
+        $appointments = DB::select("
+            SELECT phone, appointment_date, service, description, confirmed, completed, service_name 
+            FROM appointments
+            JOIN services ON appointments.service = services.id
+            WHERE user_id = " . auth()->user()->id . "
+            ORDER BY appointment_date
+            ");
+        return view('appointments')->with('appointments', $appointments)
+            ->with('services', Service::all());
     })->name('appointments');
 
     Route::post('/create-appointment', function () {
         $appointment = new Appointment;
-        $appointment->name = request('name');
-        $appointment->email = request('email');
+        $appointment->user_id = auth()->user()->id;
         $appointment->phone = request('phone');
-        $appointment->date = request('date');
-        $appointment->time = request('time');
-        $appointment->message = request('message');
+        $appointment->appointment_date = request('date');
+        $appointment->service = request('service');
+        $appointment->description = request('details');
         $appointment->save();
         return redirect('/appointments');
     })->name('create-appointment');
