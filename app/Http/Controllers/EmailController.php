@@ -13,7 +13,7 @@ class EmailController extends Controller
         /** 
          * Store a receiver email address to a variable.
          */
-        $receiverEmailAddress = "spheffley@icloud.com";
+        $receiverEmailAddress = "absolutelybussin@gmail.com";
 
         /**
          * Import the Mail class at the top of this page,
