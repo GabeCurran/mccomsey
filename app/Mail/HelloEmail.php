@@ -35,6 +35,6 @@ class HelloEmail extends Mailable
          * "resources/views" folder. If you don't have this file, then
          * create it.
          */
-        return $this->view('emails/email-template');
+        return $this->markdown('emails/email-template');
     }
 }

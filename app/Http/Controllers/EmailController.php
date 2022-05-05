@@ -24,5 +24,6 @@ class EmailController extends Controller
          * HelloEmail class that contains the email template.
          */
         Mail::to($receiverEmailAddress)->send(new HelloEmail);
+        return 'Email has been sent!';
     }
 }
