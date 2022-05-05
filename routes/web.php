@@ -68,6 +68,7 @@ Route::group(['middleware' => ['auth']], function () {
     })->name('edit-home');
 
     Route::post('/image-upload', [MultipleUploadController::class, 'store'])->name('image-upload');
+    Route::get('send-email', [App\Http\Controllers\EmailController::class, 'sendEmail']);
 });
 
 require __DIR__.'/auth.php'; 
