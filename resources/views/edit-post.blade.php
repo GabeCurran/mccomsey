@@ -7,6 +7,7 @@
     <x-slot name='content1'>
         <form method="POST" action="update-post">
             @csrf
+            <input type="hidden" name="route" value='{{ $route }}'>
             <x-blog-updater>
                 <x-slot name='post_id'>{{ $post->id }}</x-slot>
                 <x-slot name="title">
