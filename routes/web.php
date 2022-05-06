@@ -5,6 +5,7 @@ use App\Models\BlogPost;
 use App\Models\Comment;
 use App\Models\Like;
 use Illuminate\Support\Facades\DB;
+use App\Models\Home;
 use Illuminate\Http\Request;
 use App\Http\Controllers\MultipleUploadController;
 
@@ -20,14 +21,28 @@ use App\Http\Controllers\MultipleUploadController;
 */
 
 Route::group(['middleware' => ['auth']], function () {
-    Route::get('/', function () {
-        return view('home');
-    })->name('home');
 
 
     Route::get('/home', function () {
         return redirect('/');
     });
+
+    Route::get('/', function () {
+        $content = DB::select("
+            SELECT content FROM home
+            WHERE id = 1
+        ");
+        return view('home')
+            ->with(['content' => $content[0]->content])
+            ->with('posts', BlogPost::all());
+    })->name('home');
+
+    Route::get('/home-editor', function () {
+        $content = DB::select("
+        select content from home where id = 1
+      ");
+        return view('home-editor')->with(['content' => $content[0]->content]);
+    })->name('home-editor');
 
     Route::get('/blog', function () {
         $posts = DB::select('
@@ -128,6 +143,18 @@ Route::group(['middleware' => ['auth']], function () {
     })->name('unlike-post');
 
     // Route::post('multiple-image-upload', [MultipleUploadController::class, 'upload']);
+
+    Route::post('/edit-home', function (Request $request) {
+        $content = $request->input('content');
+        $content = str_replace("'", "\'", $content);
+        $content = str_replace('"', '\"', $content);
+        DB::update("
+        update home
+        set content = '{$content}'
+        where id = 1
+      ");
+      return redirect('home');
+    })->name('edit-home');
 
     Route::post('/image-upload', [MultipleUploadController::class, 'store'])->name('image-upload');
 });
