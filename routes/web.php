@@ -112,12 +112,16 @@ Route::group(['middleware' => ['auth']], function () {
     })->name('blog');
 
     Route::post('/create-post', function (Request $request) {
-        $validated = $request->validate([
-            'title' => 'required|min:3',
-            'content' => 'required|min:10'
-        ]);
-        BlogPost::create($validated + ['user_id' => auth()->id()]);
-        return redirect('blog#post' . BlogPost::all()->last()->id);
+        if (auth()->user()->admin) {
+            $validated = $request->validate([
+                'title' => 'required|min:3',
+                'content' => 'required|min:10'
+            ]);
+            BlogPost::create($validated + ['user_id' => auth()->id()]);
+            return redirect('blog#post' . BlogPost::all()->last()->id);
+        } else {
+            return redirect('/');
+        }
     })->name('create-post');
 
     Route::post('/edit-post', function (Request $request) {
@@ -144,16 +148,20 @@ Route::group(['middleware' => ['auth']], function () {
     })->name('update-post');
 
     Route::post('/delete-post', function (Request $request) {
-        $post = BlogPost::findOrFail($request->post_id);
-        if ($post->user_id == auth()->user()->id) {
-            $comments = Comment::where('post_id', $request->post_id);
-            $comments->delete();
-            $likes = Like::where('post_id', $request->post_id);
-            $likes->delete();
-            $post->delete();
-            return redirect($request->route)->with('success', 'Post deleted successfully');
+        if (auth()->user()->admin) {
+            $post = BlogPost::findOrFail($request->post_id);
+            if ($post->user_id == auth()->user()->id) {
+                $comments = Comment::where('post_id', $request->post_id);
+                $comments->delete();
+                $likes = Like::where('post_id', $request->post_id);
+                $likes->delete();
+                $post->delete();
+                return redirect($request->route)->with('success', 'Post deleted successfully');
+            } else {
+                return redirect($request->route)->with('error', 'You can only delete your own posts');
+            }
         } else {
-            return redirect($request->route)->with('error', 'You can only delete your own posts');
+            return redirect('/');
         }
     })->name('delete-post');
 
@@ -189,15 +197,19 @@ Route::group(['middleware' => ['auth']], function () {
     // Route::post('multiple-image-upload', [MultipleUploadController::class, 'upload']);
 
     Route::post('/edit-home', function (Request $request) {
-        $content = $request->input('content');
-        $content = str_replace("'", "\'", $content);
-        $content = str_replace('"', '\"', $content);
-        DB::update("
-        update home
-        set content = '{$content}'
-        where id = 1
-      ");
-      return redirect('home');
+        if (auth()->user()->admin) {
+            $content = $request->input('content');
+            $content = str_replace("'", "\'", $content);
+            $content = str_replace('"', '\"', $content);
+            DB::update("
+                update home
+                set content = '{$content}'
+                where id = 1
+            ");
+            return redirect('home');
+        } else {
+            return redirect('/');
+        }
     })->name('edit-home');
 
     Route::post('/image-upload', [MultipleUploadController::class, 'store'])->name('image-upload');

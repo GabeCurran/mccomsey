@@ -12,10 +12,12 @@
     </x-slot>
 
     <x-slot name='content1'>
-        <form method="POST" action="create-post">
-            @csrf
-            <x-blog-editor></x-blog-editor>
-        </form>
+        @if (Auth::user()->admin)
+            <form method="POST" action="create-post">
+                @csrf
+                <x-blog-editor></x-blog-editor>
+            </form>
+        @endif
 
         @foreach($posts as $post)
             <x-blog-post>
