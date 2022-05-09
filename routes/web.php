@@ -68,10 +68,14 @@ Route::group(['middleware' => ['auth']], function () {
     })->name('home');
 
     Route::get('/home-editor', function () {
-        $content = DB::select("
-        select content from home where id = 1
-      ");
-        return view('home-editor')->with(['content' => $content[0]->content]);
+        if (auth()->user()->admin) {
+            $content = DB::select("
+            select content from home where id = 1
+        ");
+            return view('home-editor')->with(['content' => $content[0]->content]);
+        } else {
+            return redirect('/');
+        }
     })->name('home-editor');
 
     Route::get('/blog', function () {
@@ -117,18 +121,26 @@ Route::group(['middleware' => ['auth']], function () {
     })->name('create-post');
 
     Route::post('/edit-post', function (Request $request) {
-        $post = BlogPost::find($request->post_id);
-        return view('edit-post')->with('post', $post)
-        ->with('route', $request->route);
+        if (auth()->user()->admin) {
+            $post = BlogPost::find($request->post_id);
+            return view('edit-post')->with('post', $post)
+            ->with('route', $request->route);
+        } else {
+            return redirect('/');
+        }
     })->name('edit-post');
 
     Route::post('/update-post', function (Request $request) {
-        $validated = $request->validate([
-            'title' => 'required|min:3',
-            'content' => 'required|min:10'
-        ]);
-        BlogPost::where('id', $request->post_id)->update($validated);
-        return redirect($request->route . '#post' . $request->post_id);
+        if (auth()->user()->admin) {
+            $validated = $request->validate([
+                'title' => 'required|min:3',
+                'content' => 'required|min:10'
+            ]);
+            BlogPost::where('id', $request->post_id)->update($validated);
+            return redirect($request->route . '#post' . $request->post_id);
+        } else {
+            return redirect('/');
+        }
     })->name('update-post');
 
     Route::post('/delete-post', function (Request $request) {
