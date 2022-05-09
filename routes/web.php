@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\MultipleUploadController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Auth\Middleware\EnsureEmailIsVerified;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,7 +25,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/home', function () {
         return redirect('/');
-    });
+    })->middleware('verified');
 
     Route::get('/', function () {
         $content = DB::select("
@@ -34,18 +35,18 @@ Route::group(['middleware' => ['auth']], function () {
         return view('home')
             ->with(['content' => $content[0]->content])
             ->with('posts', BlogPost::all());
-    })->name('home');
+    })->name('home')->middleware('verified');
 
     Route::get('/home-editor', function () {
         $content = DB::select("
         select content from home where id = 1
       ");
         return view('home-editor')->with(['content' => $content[0]->content]);
-    })->name('home-editor');
+    })->name('home-editor')->middleware('verified');;
 
     Route::get('/blog', function () {
         return view('blog')->with('posts', BlogPost::all());
-    })->name('blog');
+    })->name('blog')->middleware('verified');;
 
     Route::post('/create-post', function (Request $request) {
         $validated = $request->validate([
@@ -54,7 +55,7 @@ Route::group(['middleware' => ['auth']], function () {
         ]);
         BlogPost::create($validated);
         return redirect('blog');
-    })->name('create-post');
+    })->name('create-post')->middleware('verified');;
 
     Route::post('/edit-home', function (Request $request) {
         $content = $request->input('content');
@@ -66,7 +67,7 @@ Route::group(['middleware' => ['auth']], function () {
         where id = 1
       ");
       return redirect('home');
-    })->name('edit-home');
+    })->name('edit-home')->middleware('verified');;
 
     Route::post('/image-upload', [MultipleUploadController::class, 'store'])->name('image-upload');
     Route::get('send-email', [App\Http\Controllers\EmailController::class, 'sendEmail']);
@@ -78,7 +79,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
         $request->fulfill();
     
-        return redirect('/home');
+        return redirect('/');
     })->middleware(['auth', 'signed'])->name('verification.verify');
  
     Route::post('/email/verification-notification', function (Request $request) {
