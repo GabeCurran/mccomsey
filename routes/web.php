@@ -42,11 +42,11 @@ Route::group(['middleware' => ['auth']], function () {
         select content from home where id = 1
       ");
         return view('home-editor')->with(['content' => $content[0]->content]);
-    })->name('home-editor')->middleware('verified');;
+    })->name('home-editor')->middleware('verified');
 
     Route::get('/blog', function () {
         return view('blog')->with('posts', BlogPost::all());
-    })->name('blog')->middleware('verified');;
+    })->name('blog')->middleware('verified');
 
     Route::post('/create-post', function (Request $request) {
         $validated = $request->validate([
@@ -55,7 +55,7 @@ Route::group(['middleware' => ['auth']], function () {
         ]);
         BlogPost::create($validated);
         return redirect('blog');
-    })->name('create-post')->middleware('verified');;
+    })->name('create-post')->middleware('verified');
 
     Route::post('/edit-home', function (Request $request) {
         $content = $request->input('content');
@@ -67,10 +67,11 @@ Route::group(['middleware' => ['auth']], function () {
         where id = 1
       ");
       return redirect('home');
-    })->name('edit-home')->middleware('verified');;
+    })->name('edit-home')->middleware('verified');
 
     Route::post('/image-upload', [MultipleUploadController::class, 'store'])->name('image-upload');
-    Route::get('send-email', [App\Http\Controllers\EmailController::class, 'sendEmail']);
+    
+    // Route::get('send-email', [App\Http\Controllers\EmailController::class, 'sendEmail']);
 
     Route::get('/email/verify', function () {
         return view('auth.verify-email');
