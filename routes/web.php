@@ -148,7 +148,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/create-comment', function (Request $request) {
         $validated = $request->validate([
             'post_id' => 'required|exists:blog_posts,id',
-            'comment' => 'required|min:10'
+            'comment' => 'required|min:1'
         ]);
         Comment::create($validated + ['user_id' => auth()->user()->id]);
         return redirect($request->route . '#comment' . Comment::all()->last()->id);
