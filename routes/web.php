@@ -76,7 +76,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/blog', function () {
         $posts = DB::select('
-            select p.created_at, p.id, p.title, p.content, p.user_id, u.name, count(l.id) as likes, count(c.id) as commentsCount
+            select p.created_at, p.id, p.title, p.content, p.user_id, u.name, count(distinct l.id) as likes, count(distinct c.id) as commentsCount
             from blog_posts p
             join users u on p.user_id = u.id
             left join likes l on p.id = l.post_id
