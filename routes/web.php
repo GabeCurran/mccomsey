@@ -34,13 +34,13 @@ Route::group(['middleware' => ['auth']], function () {
         ");
         
         $posts = DB::select('
-        select p.created_at, p.id, p.title, p.content, p.user_id, u.name, count(l.id) as likes, count(c.id) as commentsCount
-        from blog_posts p
-        join users u on p.user_id = u.id
-        left join likes l on p.id = l.post_id
-        left join comments c on p.id = c.post_id
-        group by p.id, p.title, p.content, u.name, p.created_at, p.user_id
-        order by p.created_at desc
+            select p.created_at, p.id, p.title, p.content, p.user_id, u.name, count(distinct l.id) as likes, count(distinct c.id) as commentsCount
+            from blog_posts p
+            join users u on p.user_id = u.id
+            left join likes l on p.id = l.post_id
+            left join comments c on p.id = c.post_id
+            group by p.id, p.title, p.content, u.name, p.created_at, p.user_id
+            order by p.created_at desc
         ');
 
         $comments = DB::select('
