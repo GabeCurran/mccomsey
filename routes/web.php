@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Models\BlogPost;
 use App\Models\Comment;
 use App\Models\Like;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\Home;
 use Illuminate\Http\Request;
@@ -20,51 +21,82 @@ use App\Http\Controllers\MultipleUploadController;
 |
 */
 
+Route::group(['prefix' => '/'], function(){
+    if (Auth::check()) {
+        Route::get('/', function () {
+            $content = DB::select("
+                SELECT content FROM home
+                WHERE id = 1
+            ");
+            
+            $posts = DB::select('
+                select p.created_at, p.id, p.title, p.content, p.user_id, u.name, count(distinct l.id) as likes, count(distinct c.id) as commentsCount
+                from blog_posts p
+                join users u on p.user_id = u.id
+                left join likes l on p.id = l.post_id
+                left join comments c on p.id = c.post_id
+                group by p.id, p.title, p.content, u.name, p.created_at, p.user_id
+                order by p.created_at desc
+            ');
+    
+            $comments = DB::select('
+                select c.id, c.post_id, c.comment, c.created_at, u.name
+                from comments c
+                join users u on c.user_id = u.id
+            ');
+    
+            $user = auth()->user();
+            $userLikes = DB::select('
+                select post_id from likes
+                where user_id = ' . $user->id . '
+            ');
+    
+            $likeArr = [];
+            foreach ($userLikes as $like) {
+                array_push($likeArr, $like->post_id);
+            }
+    
+            return view('home')
+                ->with(['content' => $content[0]->content])
+                ->with('posts', $posts)
+                ->with('comments', $comments)
+                ->with('likes', $likeArr);
+        });
+    }
+    else {
+        Route::get('/', function () {
+            $content = DB::select("
+                    SELECT content FROM home
+                    WHERE id = 1
+                ");
+                
+            $posts = DB::select('
+                select p.created_at, p.id, p.title, p.content, p.user_id, u.name, count(distinct l.id) as likes, count(distinct c.id) as commentsCount
+                from blog_posts p
+                join users u on p.user_id = u.id
+                left join likes l on p.id = l.post_id
+                left join comments c on p.id = c.post_id
+                group by p.id, p.title, p.content, u.name, p.created_at, p.user_id
+                order by p.created_at desc
+            ');
+
+            $comments = DB::select('
+                select c.id, c.post_id, c.comment, c.created_at, u.name
+                from comments c
+                join users u on c.user_id = u.id
+            ');
+            return view('welcome')->with('posts', $posts)
+                ->with('content', $content[0]->content)
+                ->with('comments', $comments);
+        });
+    }
+});
+
 Route::group(['middleware' => ['auth']], function () {
 
 
     Route::get('/home', function () {
         return redirect('/');
-    });
-
-    Route::get('/', function () {
-        $content = DB::select("
-            SELECT content FROM home
-            WHERE id = 1
-        ");
-        
-        $posts = DB::select('
-            select p.created_at, p.id, p.title, p.content, p.user_id, u.name, count(distinct l.id) as likes, count(distinct c.id) as commentsCount
-            from blog_posts p
-            join users u on p.user_id = u.id
-            left join likes l on p.id = l.post_id
-            left join comments c on p.id = c.post_id
-            group by p.id, p.title, p.content, u.name, p.created_at, p.user_id
-            order by p.created_at desc
-        ');
-
-        $comments = DB::select('
-            select c.id, c.post_id, c.comment, c.created_at, u.name
-            from comments c
-            join users u on c.user_id = u.id
-        ');
-
-        $user = auth()->user();
-        $userLikes = DB::select('
-            select post_id from likes
-            where user_id = ' . $user->id . '
-        ');
-
-        $likeArr = [];
-        foreach ($userLikes as $like) {
-            array_push($likeArr, $like->post_id);
-        }
-
-        return view('home')
-            ->with(['content' => $content[0]->content])
-            ->with('posts', $posts)
-            ->with('comments', $comments)
-            ->with('likes', $likeArr);
     })->name('home');
 
     Route::get('/home-editor', function () {
