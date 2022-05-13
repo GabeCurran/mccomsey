@@ -70,15 +70,45 @@ Route::group(['middleware' => ['auth']], function () {
     })->name('home');
 
     Route::get('/appointments', function () {
+        if (auth()->user()->admin) {
+            $upcomingAppointments = DB::select('
+                select a.id, a.user_id, phone, service, appointment_date, description, confirmed, completed, u.name AS user_name, s.service_name AS service_name
+                from appointments a
+                join users u on a.user_id = u.id
+                join services s on a.service = s.id
+                where confirmed = 1 and completed = 0
+                order by a.appointment_date
+            ');
+            $requestedAppointments = DB::select('
+                select a.id, a.user_id, phone, service, appointment_date, description, confirmed, completed, u.name AS user_name, s.service_name AS service_name
+                from appointments a
+                join users u on a.user_id = u.id
+                join services s on a.service = s.id
+                where confirmed = 0 and completed = 0
+                order by a.appointment_date
+            ');
+            $completedAppointments = DB::select('
+                select a.id, a.user_id, phone, service, appointment_date, description, confirmed, completed, u.name AS user_name, s.service_name AS service_name
+                from appointments a
+                join users u on a.user_id = u.id
+                join services s on a.service = s.id
+                where confirmed = 1 and completed = 1
+                order by a.appointment_date
+            ');
+            return view('appointments')->with('upcomingAppointments', $upcomingAppointments)
+                ->with('requestedAppointments', $requestedAppointments)
+                ->with('completedAppointments', $completedAppointments); 
+        } else {
         $appointments = DB::select("
-            SELECT phone, appointment_date, service, description, confirmed, completed, service_name 
-            FROM appointments
-            JOIN services ON appointments.service = services.id
-            WHERE user_id = " . auth()->user()->id . "
-            ORDER BY appointment_date
+                SELECT phone, appointment_date, service, description, confirmed, completed, service_name 
+                FROM appointments
+                JOIN services ON appointments.service = services.id
+                WHERE user_id = " . auth()->user()->id . "
+                ORDER BY appointment_date
             ");
-        return view('appointments')->with('appointments', $appointments)
+            return view('appointments')->with('appointments', $appointments)
             ->with('services', Service::all());
+        }
     })->name('appointments');
 
     Route::post('/create-appointment', function () {
@@ -92,6 +122,26 @@ Route::group(['middleware' => ['auth']], function () {
         return redirect('/appointments');
     })->name('create-appointment');
 
+    Route::post('/complete-appointment', function () {
+        $appointment = Appointment::find(request('id'));
+        $appointment->completed = true;
+        $appointment->save();
+        return redirect('/appointments');
+    })->name('complete-appointment');
+
+    Route::post('/confirm-appointment' , function () {
+        $appointment = Appointment::find(request('id'));
+        $appointment->confirmed = true;
+        $appointment->save();
+        return redirect('/appointments');
+    })->name('confirm-appointment');
+
+    Route::post('/remove-appointment' , function () {
+        $appointment = Appointment::find(request('id'));
+        $appointment->delete();
+        return redirect('/appointments');
+    })->name('remove-appointment');
+    
     Route::get('/home-editor', function () {
         if (auth()->user()->admin) {
             $content = DB::select("
