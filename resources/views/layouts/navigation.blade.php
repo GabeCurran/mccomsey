@@ -16,14 +16,21 @@
                         {{ __('Home Page') }}
                     </x-nav-link>
                 </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('home-editor')" :active="request()->routeIs('home-editor')">
-                        {{ __('Home Editor') }}
-                    </x-nav-link>
-                </div>
+                @if (Auth::user()->admin)
+                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                        <x-nav-link :href="route('home-editor')" :active="request()->routeIs('home-editor')">
+                            {{ __('Home Editor') }}
+                        </x-nav-link>
+                    </div>
+                @endif
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('blog')" :active="request()->routeIs('blog')">
                         {{ __('Blog') }}
+                    </x-nav-link>
+                </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('appointments')" :active="request()->routeIs('appointments')">
+                        {{ __('Appointments') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -85,6 +92,11 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('blog')" :active="request()->routeIs('blog')">
                 {{ __('Blog') }}
+            </x-responsive-nav-link>
+        </div>
+        <div class="pt-2 pb-3 space-y-1">
+            <x-responsive-nav-link :href="route('appointments')" :active="request()->routeIs('appointments')">
+                {{ __('Appointments') }}
             </x-responsive-nav-link>
         </div>
 
