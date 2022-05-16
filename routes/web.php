@@ -10,6 +10,8 @@ use App\Models\Appointment;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use App\Http\Controllers\MultipleUploadController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Auth\Middleware\EnsureEmailIsVerified;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,7 +29,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/home', function () {
         return redirect('/');
-    });
+    })->middleware('verified');
 
     Route::get('/', function () {
         $content = DB::select("
@@ -36,13 +38,13 @@ Route::group(['middleware' => ['auth']], function () {
         ");
         
         $posts = DB::select('
-        select p.created_at, p.id, p.title, p.content, p.user_id, u.name, count(l.id) as likes, count(c.id) as commentsCount
-        from blog_posts p
-        join users u on p.user_id = u.id
-        left join likes l on p.id = l.post_id
-        left join comments c on p.id = c.post_id
-        group by p.id, p.title, p.content, u.name, p.created_at, p.user_id
-        order by p.created_at desc
+            select p.created_at, p.id, p.title, p.content, p.user_id, u.name, count(distinct l.id) as likes, count(distinct c.id) as commentsCount
+            from blog_posts p
+            join users u on p.user_id = u.id
+            left join likes l on p.id = l.post_id
+            left join comments c on p.id = c.post_id
+            group by p.id, p.title, p.content, u.name, p.created_at, p.user_id
+            order by p.created_at desc
         ');
 
         $comments = DB::select('
@@ -67,7 +69,7 @@ Route::group(['middleware' => ['auth']], function () {
             ->with('posts', $posts)
             ->with('comments', $comments)
             ->with('likes', $likeArr);
-    })->name('home');
+    })->name('home')->middleware('verified');
 
     Route::get('/appointments', function () {
         if (auth()->user()->admin) {
@@ -151,11 +153,11 @@ Route::group(['middleware' => ['auth']], function () {
         } else {
             return redirect('/');
         }
-    })->name('home-editor');
+    })->name('home-editor')->middleware('verified');
 
     Route::get('/blog', function () {
         $posts = DB::select('
-            select p.created_at, p.id, p.title, p.content, p.user_id, u.name, count(l.id) as likes, count(c.id) as commentsCount
+            select p.created_at, p.id, p.title, p.content, p.user_id, u.name, count(distinct l.id) as likes, count(distinct c.id) as commentsCount
             from blog_posts p
             join users u on p.user_id = u.id
             left join likes l on p.id = l.post_id
@@ -184,7 +186,7 @@ Route::group(['middleware' => ['auth']], function () {
         return view('blog')->with('posts', $posts)
             ->with('comments', $comments)
             ->with('likes', $likeArr);
-    })->name('blog');
+    })->name('blog')->middleware('verified');
 
     Route::post('/create-post', function (Request $request) {
         if (auth()->user()->admin) {
@@ -197,7 +199,7 @@ Route::group(['middleware' => ['auth']], function () {
         } else {
             return redirect('/');
         }
-    })->name('create-post');
+    })->name('create-post')->middleware('verified');
 
     Route::post('/edit-post', function (Request $request) {
         if (auth()->user()->admin) {
@@ -243,7 +245,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/create-comment', function (Request $request) {
         $validated = $request->validate([
             'post_id' => 'required|exists:blog_posts,id',
-            'comment' => 'required|min:10'
+            'comment' => 'required|min:1'
         ]);
         Comment::create($validated + ['user_id' => auth()->user()->id]);
         return redirect($request->route . '#comment' . Comment::all()->last()->id);
@@ -285,9 +287,27 @@ Route::group(['middleware' => ['auth']], function () {
         } else {
             return redirect('/');
         }
-    })->name('edit-home');
+    })->name('edit-home')->middleware('verified');
 
     Route::post('/image-upload', [MultipleUploadController::class, 'store'])->name('image-upload');
+    
+    // Route::get('send-email', [App\Http\Controllers\EmailController::class, 'sendEmail']);
+
+    Route::get('/email/verify', function () {
+        return view('auth.verify-email');
+    })->middleware('auth')->name('verification.notice');
+ 
+    Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+        $request->fulfill();
+    
+        return redirect('/');
+    })->middleware(['auth', 'signed'])->name('verification.verify');
+ 
+    Route::post('/email/verification-notification', function (Request $request) {
+        $request->user()->sendEmailVerificationNotification();
+    
+        return back()->with('message', 'Verification link sent!');
+    })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 });
 
 require __DIR__.'/auth.php'; 

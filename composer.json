@@ -12,6 +12,9 @@
         "laravel/framework": "^9.2",
         "laravel/sanctum": "^2.14.1",
         "laravel/tinker": "^2.7",
+        "symfony/http-client": "^6.0",
+        "symfony/mailgun-mailer": "^6.0",
+        "symfony/postmark-mailer": "^6.0",
         "yish/imgur": "^2.0"
     },
     "require-dev": {
