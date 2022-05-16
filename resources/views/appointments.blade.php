@@ -172,7 +172,8 @@
                     </div>
                     <div class='flex flex-col'>
                         <label for='date' class='text-lg'>Date</label>
-                        <input type='date' name='date' id='date' class='w-full p-2 border border-black rounded-lg' required>
+                        <input type='date' name='date' id='date' class='w-full p-2 border border-black rounded-lg appointmentDateInput'
+                        min="<?php echo date("Y-m-d"); ?>" required>
                     </div>
                     <div class='flex flex-col'>
                         <label for='service' class='text-lg'>Service</label>
@@ -195,6 +196,31 @@
 </x-app-layout>
 
 <script>
+    let year = new Date().toISOString().slice(0, 4);
+    let month = new Date().toISOString().slice(5, 7);
+    let day = new Date().toISOString().slice(8, 10);
+    let dateInput = document.querySelector('.appointmentDateInput');
+
+    function findNextMonth() {
+        let nextMonth = Number(month);
+        if (nextMonth == 12) {
+            nextMonth = 1;
+        } else {
+            nextMonth++;
+        }
+
+        if (month < 10) {
+            nextMonth = '0' + nextMonth.toString();
+            return nextMonth;
+        } else {
+            nextMonth = nextMonth.toString();
+            return nextMonth;
+        }
+
+    }
+
+    dateInput.max = year + "-" + findNextMonth() + "-" + day;
+
     function toggleDetailsField() {
         if (document.getElementById('service').value == '8') {
             document.getElementById('details_div').classList.remove('hidden');
