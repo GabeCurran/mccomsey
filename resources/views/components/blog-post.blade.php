@@ -1,5 +1,5 @@
 <div id='{{ $post_id }}' class="mt-4 p-2">
-    <div class='flex border-b mb-2 items-center'>
+    <div class='flex border-b mb-2 pb-2 items-center'>
         <h3 class='text-3xl'>{{ $title }}</h3>
         <div class='flex items-center ml-auto'>
             {{ $edit_button ?? '' }}
@@ -7,7 +7,7 @@
         </div>
     </div>
     <div class='text-sm mb-5'>by {{ $author }} on {{ $datetime }}</div>
-    <div class='blog-content'>{{ $post_content }}</div>
+    <div class='blog-content w-3/4 p-6 border bg-gray-50 rounded-lg'>{{ $post_content }}</div>
     <div class='flex items-center mt-3'>
         {{ $likeButton }}
         <img src='{{ asset('images/like-button.svg') }}' class='w-5 h-5 ml-3' alt='like'>
