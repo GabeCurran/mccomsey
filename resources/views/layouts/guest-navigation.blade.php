@@ -15,8 +15,11 @@
                     <x-nav-link :active="request()->routeIs('home')">
                         {{ __('Home Page') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('login')" :active="request()->routeIs('home')">
+                    <x-nav-link :href="route('login')">
                         {{ __('Log In') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('register')">
+                        {{ __('Register') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -45,10 +48,11 @@
         <div class="pt-4 pb-1 border-t border-gray-200">
 
             <div class="mt-3 space-y-1">
-                    <x-responsive-nav-link :href="route('logout')"
-                            onclick="event.preventDefault();
-                                        this.closest('form').submit();">
+                    <x-responsive-nav-link :href="route('login')">
                         {{ __('Log In') }}
+                    </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('register')">
+                        {{ __('Register') }}
                     </x-responsive-nav-link>
             </div>
         </div>
