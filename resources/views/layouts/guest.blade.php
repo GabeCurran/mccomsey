@@ -12,9 +12,23 @@
 
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/my.css') }}">
 
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}" defer></script>
+        <script src="{{ asset('js/vendors.js') }}" defer></script>
+        <script src="{{ asset('js/blogposts.js') }}" defer></script>
+        <script src="{{ asset('js/homeContent.js') }}" defer></script>
+        <link rel="stylesheet" href="{{ asset('css/my.css')}}">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@iconscout/unicons@3.0.6/css/line.css">
+
+        <!-- Scripts -->
+        <script src="{{ asset('js/app.js') }}" defer></script>
+        <script src="{{ asset('js/nav.js') }}" defer></script>
+        <script src="{{ asset('js/footer.js') }}" defer></script>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script src="{{ 'js/parallax.min.js' }}" defer></script>
     </head>
     <body>
         <div class="font-sans text-gray-900 antialiased">
