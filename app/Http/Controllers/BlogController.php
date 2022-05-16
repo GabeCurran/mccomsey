@@ -64,4 +64,17 @@ class BlogController extends Controller
             return redirect('/');
         }
     }
+
+    public function update(Request $request) {
+        if (auth()->user()->admin) {
+            $validated = $request->validate([
+                'title' => 'required|min:3',
+                'content' => 'required|min:10'
+            ]);
+            BlogPost::where('id', $request->post_id)->update($validated);
+            return redirect($request->route . '#post' . $request->post_id);
+        } else {
+            return redirect('/');
+        }
+    }
 }

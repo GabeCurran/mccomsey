@@ -30,25 +30,25 @@ use Illuminate\Auth\Middleware\EnsureEmailIsVerified;
 */
 Route::get('/', PagesController::class)->name('home');
 
-Route::group(['middleware' => ['auth']], function () {
+Route::group(['middleware' => ['verified']], function () {
 
 
     Route::get('/home', function () {
         return redirect('/');
-    })->name('home')->middleware('verified');
+    })->name('home');
 
-    Route::get('/appointments', [AppointmentController::class, 'show'])->name('appointments')->middleware('verified');
-    Route::post('/create-appointment', [AppointmentController::class, 'create'])->name('create-appointment')->middleware('verified');
-    Route::post('/complete-appointment', [AppointmentController::class, 'complete'])->name('complete-appappointment')->middleware('verified');
-    Route::post('/confirm-appointment' , [AppointmentController::class, 'confirm'])->name('confirm-appointment')->middleware('verified');
+    Route::get('/appointments', [AppointmentController::class, 'show'])->name('appointments');
+    Route::post('/create-appointment', [AppointmentController::class, 'create'])->name('create-appointment');
+    Route::post('/complete-appointment', [AppointmentController::class, 'complete'])->name('complete-appappointment');
+    Route::post('/confirm-appointment' , [AppointmentController::class, 'confirm'])->name('confirm-appointment');
     Route::post('/remove-appointment' , [AppointmentController::class, 'remove'])->name('remove-appointment');
     
-    Route::get('/home-editor', [EditHomeController::class, 'show'])->name('home-editor')->middleware('verified');
-    Route::post('/edit-home', [EditHomeController::class, 'update'])->name('edit-home')->middleware('verified');
+    Route::get('/home-editor', [EditHomeController::class, 'show'])->name('home-editor');
+    Route::post('/edit-home', [EditHomeController::class, 'update'])->name('edit-home');
 
-    Route::get('/blog', [BlogController::class, 'show'])->name('blog')->middleware('verified');
-    Route::post('/create-post', [BlogController::class, 'create'])->name('create-post')->middleware('verified');
-    Route::post('/edit-post', [BlogController::class, 'edit'])->name('edit-post')->middleware('verified');
+    Route::get('/blog', [BlogController::class, 'show'])->name('blog');
+    Route::post('/create-post', [BlogController::class, 'create'])->name('create-post');
+    Route::post('/edit-post', [BlogController::class, 'edit'])->name('edit-post');
 
     Route::post('/update-post', function (Request $request) {
         if (auth()->user()->admin) {
