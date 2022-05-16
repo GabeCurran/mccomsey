@@ -15,6 +15,7 @@ use App\Http\Controllers\PagesController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\EditHomeController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\FeedbackController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Auth\Middleware\EnsureEmailIsVerified;
 
@@ -49,66 +50,12 @@ Route::group(['middleware' => ['verified']], function () {
     Route::get('/blog', [BlogController::class, 'show'])->name('blog');
     Route::post('/create-post', [BlogController::class, 'create'])->name('create-post');
     Route::post('/edit-post', [BlogController::class, 'edit'])->name('edit-post');
+    Route::post('/update-post', [BlogController::class, 'update'])->name('update-post');
+    Route::post('/delete-post', [BlogController::class, 'delete'])->name('delete-post');
 
-    Route::post('/update-post', function (Request $request) {
-        if (auth()->user()->admin) {
-            $validated = $request->validate([
-                'title' => 'required|min:3',
-                'content' => 'required|min:10'
-            ]);
-            BlogPost::where('id', $request->post_id)->update($validated);
-            return redirect($request->route . '#post' . $request->post_id);
-        } else {
-            return redirect('/');
-        }
-    })->name('update-post');
-
-    Route::post('/delete-post', function (Request $request) {
-        if (auth()->user()->admin) {
-            $post = BlogPost::findOrFail($request->post_id);
-            if ($post->user_id == auth()->user()->id) {
-                $comments = Comment::where('post_id', $request->post_id);
-                $comments->delete();
-                $likes = Like::where('post_id', $request->post_id);
-                $likes->delete();
-                $post->delete();
-                return redirect($request->route)->with('success', 'Post deleted successfully');
-            } else {
-                return redirect($request->route)->with('error', 'You can only delete your own posts');
-            }
-        } else {
-            return redirect('/');
-        }
-    })->name('delete-post');
-
-    Route::post('/create-comment', function (Request $request) {
-        $validated = $request->validate([
-            'post_id' => 'required|exists:blog_posts,id',
-            'comment' => 'required|min:1'
-        ]);
-        Comment::create($validated + ['user_id' => auth()->user()->id]);
-        return redirect($request->route . '#comment' . Comment::all()->last()->id);
-    })->name('create-comment');
-
-    Route::post('/like-post', function (Request $request) {
-        $validated = $request->validate([
-            'post_id' => 'required|exists:blog_posts,id'
-        ]);
-        $user = auth()->user();
-        Like::create($validated + ['user_id' => $user->id]);
-        return redirect($request->route . '#like' . $validated['post_id']);
-    })->name('like-post');
-
-    Route::post('/unlike-post', function (Request $request) {
-        $validated = $request->validate([
-            'post_id' => 'required|exists:blog_posts,id'
-        ]);
-        $user = auth()->user();
-        Like::where('user_id', $user->id)
-            ->where('post_id', $validated['post_id'])
-            ->delete();
-        return redirect($request->route . '#like' . $validated['post_id']);
-    })->name('unlike-post');
+    Route::post('/create-comment', [FeedbackController::class, 'comment'])->name('create-comment');
+    Route::post('/like-post', [FeedbackController::class, 'like'])->name('like-post');
+    Route::post('/unlike-post', [FeedbackController::class, 'unlike'])->name('unlike-post');
 
     // Route::post('multiple-image-upload', [MultipleUploadController::class, 'upload']);
 

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\BlogPost;
+use App\Models\Comment;
+use App\Models\Like;
 
 class BlogController extends Controller
 {
@@ -73,6 +75,24 @@ class BlogController extends Controller
             ]);
             BlogPost::where('id', $request->post_id)->update($validated);
             return redirect($request->route . '#post' . $request->post_id);
+        } else {
+            return redirect('/');
+        }
+    }
+
+    public function delete(Request $request) {
+        if (auth()->user()->admin) {
+            $post = BlogPost::findOrFail($request->post_id);
+            if ($post->user_id == auth()->user()->id) {
+                $comments = Comment::where('post_id', $request->post_id);
+                $comments->delete();
+                $likes = Like::where('post_id', $request->post_id);
+                $likes->delete();
+                $post->delete();
+                return redirect($request->route)->with('success', 'Post deleted successfully');
+            } else {
+                return redirect($request->route)->with('error', 'You can only delete your own posts');
+            }
         } else {
             return redirect('/');
         }
