@@ -12,6 +12,9 @@ use App\Models\Service;
 use Illuminate\Http\Request;
 use App\Http\Controllers\MultipleUploadController;
 use App\Http\Controllers\PagesController;
+use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\EditHomeController;
+use App\Http\Controllers\BlogController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Auth\Middleware\EnsureEmailIsVerified;
 
@@ -34,145 +37,18 @@ Route::group(['middleware' => ['auth']], function () {
         return redirect('/');
     })->name('home')->middleware('verified');
 
-    Route::get('/appointments', function () {
-        if (auth()->user()->admin) {
-            $upcomingAppointments = DB::select('
-                select a.id, a.user_id, phone, service, appointment_date, description, confirmed, completed, u.name AS user_name, s.service_name AS service_name
-                from appointments a
-                join users u on a.user_id = u.id
-                join services s on a.service = s.id
-                where confirmed = 1 and completed = 0
-                order by a.appointment_date
-            ');
-            $requestedAppointments = DB::select('
-                select a.id, a.user_id, phone, service, appointment_date, description, confirmed, completed, u.name AS user_name, s.service_name AS service_name
-                from appointments a
-                join users u on a.user_id = u.id
-                join services s on a.service = s.id
-                where confirmed = 0 and completed = 0
-                order by a.appointment_date
-            ');
-            $completedAppointments = DB::select('
-                select a.id, a.user_id, phone, service, appointment_date, description, confirmed, completed, u.name AS user_name, s.service_name AS service_name
-                from appointments a
-                join users u on a.user_id = u.id
-                join services s on a.service = s.id
-                where confirmed = 1 and completed = 1
-                order by a.appointment_date
-            ');
-            return view('appointments')->with('upcomingAppointments', $upcomingAppointments)
-                ->with('requestedAppointments', $requestedAppointments)
-                ->with('completedAppointments', $completedAppointments); 
-        } else {
-        $appointments = DB::select("
-                SELECT phone, appointment_date, service, description, confirmed, completed, service_name 
-                FROM appointments
-                JOIN services ON appointments.service = services.id
-                WHERE user_id = " . auth()->user()->id . "
-                ORDER BY appointment_date
-            ");
-            return view('appointments')->with('appointments', $appointments)
-            ->with('services', Service::all());
-        }
-    })->name('appointments');
-
-    Route::post('/create-appointment', function () {
-        $appointment = new Appointment;
-        $appointment->user_id = auth()->user()->id;
-        $appointment->phone = request('phone');
-        $appointment->appointment_date = request('date');
-        $appointment->service = request('service');
-        $appointment->description = request('details');
-        $appointment->save();
-        return redirect('/appointments');
-    })->name('create-appointment');
-
-    Route::post('/complete-appointment', function () {
-        $appointment = Appointment::find(request('id'));
-        $appointment->completed = true;
-        $appointment->save();
-        return redirect('/appointments');
-    })->name('complete-appointment');
-
-    Route::post('/confirm-appointment' , function () {
-        $appointment = Appointment::find(request('id'));
-        $appointment->confirmed = true;
-        $appointment->save();
-        return redirect('/appointments');
-    })->name('confirm-appointment');
-
-    Route::post('/remove-appointment' , function () {
-        $appointment = Appointment::find(request('id'));
-        $appointment->delete();
-        return redirect('/appointments');
-    })->name('remove-appointment');
+    Route::get('/appointments', [AppointmentController::class, 'show'])->name('appointments')->middleware('verified');
+    Route::post('/create-appointment', [AppointmentController::class, 'create'])->name('create-appointment')->middleware('verified');
+    Route::post('/complete-appointment', [AppointmentController::class, 'complete'])->name('complete-appappointment')->middleware('verified');
+    Route::post('/confirm-appointment' , [AppointmentController::class, 'confirm'])->name('confirm-appointment')->middleware('verified');
+    Route::post('/remove-appointment' , [AppointmentController::class, 'remove'])->name('remove-appointment');
     
-    Route::get('/home-editor', function () {
-        if (auth()->user()->admin) {
-            $content = DB::select("
-            select content from home where id = 1
-        ");
-            return view('home-editor')->with(['content' => $content[0]->content]);
-        } else {
-            return redirect('/');
-        }
-    })->name('home-editor')->middleware('verified');
+    Route::get('/home-editor', [EditHomeController::class, 'show'])->name('home-editor')->middleware('verified');
+    Route::post('/edit-home', [EditHomeController::class, 'update'])->name('edit-home')->middleware('verified');
 
-    Route::get('/blog', function () {
-        $posts = DB::select('
-            select p.created_at, p.id, p.title, p.content, p.user_id, u.name, count(distinct l.id) as likes, count(distinct c.id) as commentsCount
-            from blog_posts p
-            join users u on p.user_id = u.id
-            left join likes l on p.id = l.post_id
-            left join comments c on p.id = c.post_id
-            group by p.id, p.title, p.content, u.name, p.created_at, p.user_id
-            order by p.created_at desc
-        ');
-
-        $comments = DB::select('
-            select c.id, c.post_id, c.comment, c.created_at, u.name
-            from comments c
-            join users u on c.user_id = u.id
-        ');
-
-        $user = auth()->user();
-        $userLikes = DB::select('
-            select post_id from likes
-            where user_id = ' . $user->id . '
-        ');
-
-        $likeArr = [];
-        foreach ($userLikes as $like) {
-            array_push($likeArr, $like->post_id);
-        }
-
-        return view('blog')->with('posts', $posts)
-            ->with('comments', $comments)
-            ->with('likes', $likeArr);
-    })->name('blog')->middleware('verified');
-
-    Route::post('/create-post', function (Request $request) {
-        if (auth()->user()->admin) {
-            $validated = $request->validate([
-                'title' => 'required|min:3',
-                'content' => 'required|min:10'
-            ]);
-            BlogPost::create($validated + ['user_id' => auth()->id()]);
-            return redirect('blog#post' . BlogPost::all()->last()->id);
-        } else {
-            return redirect('/');
-        }
-    })->name('create-post')->middleware('verified');
-
-    Route::post('/edit-post', function (Request $request) {
-        if (auth()->user()->admin) {
-            $post = BlogPost::find($request->post_id);
-            return view('edit-post')->with('post', $post)
-            ->with('route', $request->route);
-        } else {
-            return redirect('/');
-        }
-    })->name('edit-post');
+    Route::get('/blog', [BlogController::class, 'show'])->name('blog')->middleware('verified');
+    Route::post('/create-post', [BlogController::class, 'create'])->name('create-post')->middleware('verified');
+    Route::post('/edit-post', [BlogController::class, 'edit'])->name('edit-post')->middleware('verified');
 
     Route::post('/update-post', function (Request $request) {
         if (auth()->user()->admin) {
@@ -235,22 +111,6 @@ Route::group(['middleware' => ['auth']], function () {
     })->name('unlike-post');
 
     // Route::post('multiple-image-upload', [MultipleUploadController::class, 'upload']);
-
-    Route::post('/edit-home', function (Request $request) {
-        if (auth()->user()->admin) {
-            $content = $request->input('content');
-            $content = str_replace("'", "\'", $content);
-            $content = str_replace('"', '\"', $content);
-            DB::update("
-                update home
-                set content = '{$content}'
-                where id = 1
-            ");
-            return redirect('home');
-        } else {
-            return redirect('/');
-        }
-    })->name('edit-home')->middleware('verified');
 
     Route::post('/image-upload', [MultipleUploadController::class, 'store'])->name('image-upload');
     
