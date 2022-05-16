@@ -11,7 +11,7 @@ class PagesController extends Controller
     //
     public function __invoke()
     {
-        if (Auth::check() == true) {
+        if (Auth::check() == true && Auth::user()->email_verified_at != null) {
             $content = DB::select("
             SELECT content FROM home
             WHERE id = 1
