@@ -38,10 +38,9 @@
                 <input type='hidden' name='id'  value='{{ $appointment->id }}'>
                 <button type='submit' class='w-full p-2 bg-red-500 hover:bg-red-700 text-white rounded-lg'>Cancel Appointment</button>
             </form>
-            <form method='post' action='/appointments'>
-                @csrf
-                <button type='submit' class='w-full ml-5 p-2 bg-blue-500 hover:bg-blue-700 text-white rounded-lg'>Don't Cancel</button>
-            </form>
+            <div class='mt-2'>
+                <a href='/appointments' class='w-full ml-5 p-2 bg-blue-500 hover:bg-blue-700 text-white rounded-lg'>Don't Cancel</a>
+            </div>
         </div>
     </x-slot>
 </x-app-layout>
