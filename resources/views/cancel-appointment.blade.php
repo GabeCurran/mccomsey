@@ -25,7 +25,7 @@
                     <tr>
                         <td class='border px-4 py-2'>{{ $appointment->phone }}</td>
                         <td class='border px-4 py-2'>{{ $appointment->appointment_date }}</td>
-                        <td class='border px-4 py-2'>{{ $appointment->service_name }}</td>
+                        <td class='border px-4 py-2'>{{ $service->service_name }}</td>
                         <td class='border px-4 py-2'>{{ $appointment->description }}</td>
                         <td class='border px-4 py-2'>{{ $appointment->confirmed ? 'Yes' : 'No' }}</td>
                     </tr>
