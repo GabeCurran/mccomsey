@@ -1,5 +1,5 @@
 <div id='{{ $post_id }}' class="mt-4 p-2">
-    <div class='flex border-b mb-2 items-center'>
+    <div class='flex border-b mb-2 pb-2 items-center'>
         <h3 class='text-3xl'>{{ $title }}</h3>
         <div class='flex items-center ml-auto'>
             {{ $edit_button ?? '' }}

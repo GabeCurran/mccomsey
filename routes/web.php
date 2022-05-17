@@ -1,14 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Models\BlogPost;
-use App\Models\Comment;
-use App\Models\Like;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use App\Models\Home;
-use App\Models\Appointment;
-use App\Models\Service;
 use Illuminate\Http\Request;
 use App\Http\Controllers\MultipleUploadController;
 use App\Http\Controllers\PagesController;
@@ -17,7 +9,6 @@ use App\Http\Controllers\EditHomeController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\FeedbackController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
-use Illuminate\Auth\Middleware\EnsureEmailIsVerified;
 
 /*
 |--------------------------------------------------------------------------
