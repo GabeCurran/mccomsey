@@ -31,6 +31,10 @@ Route::group(['middleware' => ['verified']], function () {
 
     Route::get('/appointments', [AppointmentController::class, 'show'])->name('appointments');
     Route::post('/create-appointment', [AppointmentController::class, 'create'])->name('create-appointment');
+    Route::post('/update-appointment', [AppointmentController::class, 'updatePage'])->name('update-appointment');
+    Route::post('/change-appointment', [AppointmentController::class, 'update'])->name('change-appointment');
+    Route::post('/cancel-confirm', [AppointmentController::class, 'cancelConfirm'])->name('cancel-confirm');
+    Route::post('/cancel-appointment', [AppointmentController::class, 'delete'])->name('cancel-appointment');
     Route::post('/complete-appointment', [AppointmentController::class, 'complete'])->name('complete-appappointment');
     Route::post('/confirm-appointment' , [AppointmentController::class, 'confirm'])->name('confirm-appointment');
     Route::post('/remove-appointment' , [AppointmentController::class, 'remove'])->name('remove-appointment');

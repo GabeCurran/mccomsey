@@ -14,38 +14,40 @@
             </div>
                 @else
             </div>
-            <table class='table-auto mx-auto'>
-                <thead>
-                    <tr>
-                        <th class='px-4 py-2'>Customer</th>
-                        <th class='px-4 py-2'>Phone</th>
-                        <th class='px-4 py-2'>Date</th>
-                        <th class='px-4 py-2'>Service</th>
-                        <th class='px-4 py-2'>Description</th>
-                        <th class='px-4 py-2'>Complete</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($upcomingAppointments as $appointment)
+            <div class='overflow-x-auto'>
+                <table class='table-auto mx-auto'>
+                    <thead>
                         <tr>
-                            <td class='border px-4 py-2'>{{ $appointment->user_name }}</td>
-                            <td class='border px-4 py-2'>{{ $appointment->phone }}</td>
-                            <td class='border px-4 py-2'>{{ $appointment->appointment_date }}</td>
-                            <td class='border px-4 py-2'>{{ $appointment->service_name }}</td>
-                            <td class='border px-4 py-2'>{{ $appointment->description }}</td>
-                            <td class='border px-4 py-2'>
-                                <form method='post' action='complete-appointment' class='mb-0'>
-                                    @csrf
-                                    <input type="hidden" name="id" value="{{ $appointment->id }}">
-                                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                        {{ __('Complete') }}
-                                    </button>
-                                </form>
-                            </td>
+                            <th class='px-4 py-2'>Customer</th>
+                            <th class='px-4 py-2'>Phone</th>
+                            <th class='px-4 py-2'>Date</th>
+                            <th class='px-4 py-2'>Service</th>
+                            <th class='px-4 py-2'>Description</th>
+                            <th class='px-4 py-2'>Complete</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach ($upcomingAppointments as $appointment)
+                            <tr>
+                                <td class='border px-4 py-2'>{{ $appointment->user_name }}</td>
+                                <td class='border px-4 py-2'>{{ $appointment->phone }}</td>
+                                <td class='border px-4 py-2'>{{ $appointment->appointment_date }}</td>
+                                <td class='border px-4 py-2'>{{ $appointment->service_name }}</td>
+                                <td class='border px-4 py-2'>{{ $appointment->description }}</td>
+                                <td class='border px-4 py-2'>
+                                    <form method='post' action='complete-appointment' class='mb-0'>
+                                        @csrf
+                                        <input type="hidden" name="id" value="{{ $appointment->id }}">
+                                        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                            {{ __('Complete') }}
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
                 @endif
                 <div class='max-w-lg m-auto mt-10'>
                     <h1 class='text-4xl mb-5'>Requested Appointments</h1>
@@ -54,38 +56,40 @@
                 </div>
                     @else
                 </div>
-                <table class='table-auto mx-auto'>
-                    <thead>
-                        <tr>
-                            <th class='px-4 py-2'>Customer</th>
-                            <th class='px-4 py-2'>Phone</th>
-                            <th class='px-4 py-2'>Date</th>
-                            <th class='px-4 py-2'>Service</th>
-                            <th class='px-4 py-2'>Description</th>
-                            <th class='px-4 py-2'>Confirm</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($requestedAppointments as $appointment)
+                <div class='overflow-x-auto'>
+                    <table class='table-auto mx-auto'>
+                        <thead>
                             <tr>
-                                <td class='border px-4 py-2'>{{ $appointment->user_name }}</td>
-                                <td class='border px-4 py-2'>{{ $appointment->phone }}</td>
-                                <td class='border px-4 py-2'>{{ $appointment->appointment_date }}</td>
-                                <td class='border px-4 py-2'>{{ $appointment->service_name }}</td>
-                                <td class='border px-4 py-2'>{{ $appointment->description }}</td>
-                                <td class='border px-4 py-2'>
-                                    <form action="/confirm-appointment" method="POST">
-                                        @csrf
-                                        <input type="hidden" name="id" value="{{ $appointment->id }}">
-                                        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                            Confirm
-                                        </button>
-                                    </form>
-                                </td>
+                                <th class='px-4 py-2'>Customer</th>
+                                <th class='px-4 py-2'>Phone</th>
+                                <th class='px-4 py-2'>Date</th>
+                                <th class='px-4 py-2'>Service</th>
+                                <th class='px-4 py-2'>Description</th>
+                                <th class='px-4 py-2'>Confirm</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach ($requestedAppointments as $appointment)
+                                <tr>
+                                    <td class='border px-4 py-2'>{{ $appointment->user_name }}</td>
+                                    <td class='border px-4 py-2'>{{ $appointment->phone }}</td>
+                                    <td class='border px-4 py-2'>{{ $appointment->appointment_date }}</td>
+                                    <td class='border px-4 py-2'>{{ $appointment->service_name }}</td>
+                                    <td class='border px-4 py-2'>{{ $appointment->description }}</td>
+                                    <td class='border px-4 py-2'>
+                                        <form action="/confirm-appointment" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="id" value="{{ $appointment->id }}">
+                                            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                                Confirm
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             @endif
                 <div class='max-w-lg m-auto mt-10'>
                     <h1 class='text-4xl mb-5'>Completed Appointments</h1>
@@ -94,38 +98,40 @@
                 </div>
                     @else
                 </div>
-                <table class='table-auto mx-auto'>
-                    <thead>
-                        <tr>
-                            <th class='px-4 py-2'>Customer</th>
-                            <th class='px-4 py-2'>Phone</th>
-                            <th class='px-4 py-2'>Date</th>
-                            <th class='px-4 py-2'>Service</th>
-                            <th class='px-4 py-2'>Description</th>
-                            <th class='px-4 py-2'>Remove</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($completedAppointments as $appointment)
+                <div class='overflow-x-auto'>
+                    <table class='table-auto mx-auto'>
+                        <thead>
                             <tr>
-                                <td class='border px-4 py-2'>{{ $appointment->user_name }}</td>
-                                <td class='border px-4 py-2'>{{ $appointment->phone }}</td>
-                                <td class='border px-4 py-2'>{{ $appointment->appointment_date }}</td>
-                                <td class='border px-4 py-2'>{{ $appointment->service_name }}</td>
-                                <td class='border px-4 py-2'>{{ $appointment->description }}</td>
-                                <td class='border px-4 py-2'>
-                                    <form action="/remove-appointment" method="POST">
-                                        @csrf
-                                        <input type="hidden" name="id" value="{{ $appointment->id }}">
-                                        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                            Remove
-                                        </button>
-                                    </form>
-                                </td>
+                                <th class='px-4 py-2'>Customer</th>
+                                <th class='px-4 py-2'>Phone</th>
+                                <th class='px-4 py-2'>Date</th>
+                                <th class='px-4 py-2'>Service</th>
+                                <th class='px-4 py-2'>Description</th>
+                                <th class='px-4 py-2'>Remove</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach ($completedAppointments as $appointment)
+                                <tr>
+                                    <td class='border px-4 py-2'>{{ $appointment->user_name }}</td>
+                                    <td class='border px-4 py-2'>{{ $appointment->phone }}</td>
+                                    <td class='border px-4 py-2'>{{ $appointment->appointment_date }}</td>
+                                    <td class='border px-4 py-2'>{{ $appointment->service_name }}</td>
+                                    <td class='border px-4 py-2'>{{ $appointment->description }}</td>
+                                    <td class='border px-4 py-2'>
+                                        <form action="/remove-appointment" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="id" value="{{ $appointment->id }}">
+                                            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                                Remove
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             @endif
         @else
             <div class='max-w-lg m-auto'>
@@ -135,6 +141,7 @@
             </div>
                 @else
             </div>
+                <div class='overflow-x-auto'>
                     <table class='table-auto mx-auto'>
                         <thead>
                             <tr>
@@ -143,7 +150,8 @@
                                 <th class='px-4 py-2'>Service</th>
                                 <th class='px-4 py-2'>Description</th>
                                 <th class='px-4 py-2'>Confirmed?</th>
-                                <th class='px-4 py-2'>Completed?</th>
+                                <th class='px-4 py-2'></th>
+                                <th class='px-4 py-2'></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -154,11 +162,29 @@
                                     <td class='border px-4 py-2'>{{ $appointment->service_name }}</td>
                                     <td class='border px-4 py-2'>{{ $appointment->description }}</td>
                                     <td class='border px-4 py-2'>{{ $appointment->confirmed ? 'Yes' : 'No' }}</td>
-                                    <td class='border px-4 py-2'>{{ $appointment->completed ? 'Yes' : 'No' }}</td>
+                                    <td class='border px-4 py-2'>
+                                        <form action="/update-appointment" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="id" value="{{ $appointment->id }}">
+                                            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                                Reschedule/Edit
+                                            </button>
+                                        </form>
+                                    </td>
+                                    <td class='border px-4 py-2'>
+                                        <form action="/cancel-confirm" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="id" value="{{ $appointment->id }}">
+                                            <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                                                Cancel
+                                            </button>
+                                        </form>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
+                </div>
                 @endif
 
             <div class='flex flex-col max-w-lg m-auto'>
