@@ -83,7 +83,9 @@ class AppointmentController extends Controller
 
     public function cancelConfirm(Request $request) {
         $appointment = Appointment::find($request->id);
-        return view('cancel-appointment')->with('appointment', $appointment);
+        $service = Service::find($appointment->service);
+        return view('cancel-appointment')->with('appointment', $appointment)
+            ->with('service', $service);
     }
 
     public function delete(Request $request) {
