@@ -1434,6 +1434,9 @@ select {
 .mb-5 {
   margin-bottom: 1.25rem;
 }
+.mt-2 {
+  margin-top: 0.5rem;
+}
 .mr-3 {
   margin-right: 0.75rem;
 }
@@ -1565,9 +1568,6 @@ select {
 }
 .mt-1 {
   margin-top: 0.25rem;
-}
-.mt-2 {
-  margin-top: 0.5rem;
 }
 .mt-5 {
   margin-top: 1.25rem;
@@ -3446,6 +3446,9 @@ select {
 .overflow-hidden {
   overflow: hidden;
 }
+.overflow-x-auto {
+  overflow-x: auto;
+}
 .overscroll-contain {
   -ms-scroll-chaining: none;
       overscroll-behavior: contain;
@@ -4986,6 +4989,9 @@ select {
   padding-top: 2.75rem;
   padding-bottom: 2.75rem;
 }
+.pb-6 {
+  padding-bottom: 1.5rem;
+}
 .pt-6 {
   padding-top: 1.5rem;
 }
@@ -5012,9 +5018,6 @@ select {
 }
 .pb-5 {
   padding-bottom: 1.25rem;
-}
-.pb-6 {
-  padding-bottom: 1.5rem;
 }
 .pb-8 {
   padding-bottom: 2rem;
@@ -6344,6 +6347,10 @@ select {
 .hover\:bg-blue-700:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(29 78 216 / var(--tw-bg-opacity));
+}
+.hover\:bg-red-700:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(185 28 28 / var(--tw-bg-opacity));
 }
 .hover\:bg-gray-700:hover {
   --tw-bg-opacity: 1;

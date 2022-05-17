@@ -41,10 +41,11 @@ class AppointmentController extends Controller
                 ->with('completedAppointments', $completedAppointments); 
         } else {
         $appointments = DB::select("
-                SELECT phone, appointment_date, service, description, confirmed, completed, service_name 
-                FROM appointments
-                JOIN services ON appointments.service = services.id
+                SELECT a.id AS id, phone, appointment_date, service, description, confirmed, completed, service_name 
+                FROM appointments a
+                JOIN services s ON a.service = s.id
                 WHERE user_id = " . auth()->user()->id . "
+                AND completed = 0
                 ORDER BY appointment_date
             ");
             return view('appointments')->with('appointments', $appointments)
@@ -60,6 +61,34 @@ class AppointmentController extends Controller
         $appointment->service = request('service');
         $appointment->description = request('details');
         $appointment->save();
+        return redirect('/appointments');
+    }
+
+    public function updatePage(Request $request) {
+        $appointment = Appointment::find($request->id);
+        return view('update-appointment')->with('appointment', $appointment)
+            ->with('services', Service::all());
+    }
+
+    public function update(Request $request) {
+        $appointment = Appointment::find($request->id);
+        $appointment->phone = request('phone');
+        $appointment->appointment_date = request('date');
+        $appointment->service = request('service');
+        $appointment->description = request('details');
+        $appointment->confirmed = false;
+        $appointment->update();
+        return redirect('/appointments');
+    }
+
+    public function cancelConfirm(Request $request) {
+        $appointment = Appointment::find($request->id);
+        return view('cancel-appointment')->with('appointment', $appointment);
+    }
+
+    public function delete(Request $request) {
+        $appointment = Appointment::find($request->id);
+        $appointment->delete();
         return redirect('/appointments');
     }
 
